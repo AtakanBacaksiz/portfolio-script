@@ -7,16 +7,11 @@ $(window).on("load", function () {
 function getModalElements() {
   return {
     cmodal: document.querySelector("#contact-modal"),
-    modalcard: document.querySelector("#modal-card"),
     cmodalcard: document.querySelector("#contact-card"),
     contactBtn: document.querySelector("#contact-btn"),
     contactBtn2: document.querySelector("#contact-btn2"),
-    span: document.querySelector(".modal-background"),
     cspan: document.querySelector(".modal-background.is-contact"),
-    copyk: document.querySelector("#copy-mail-btn"),
     copyc: document.querySelector("#copy-mail-cbtn"),
-    footercopy: document.querySelector("#footer-copy"),
-    shortcuthero: document.querySelector("#shortcut-hero"),
     animatedDiv: document.querySelector(".toast-message"),
   };
 }
@@ -164,18 +159,6 @@ if (copyc) {
   });
 }
 
-if (copyk) {
-  copyk.addEventListener("click", function () {
-    showToast(animatedDiv);
-  });
-}
-
-if (footercopy) {
-  footercopy.addEventListener("click", function () {
-    showToast(animatedDiv);
-  });
-}
-
 if (contactBtn) {
   contactBtn.addEventListener("click", function () {
     cmodal.style.display = "flex";
@@ -191,27 +174,9 @@ if (contactBtn) {
   });
 }
 
-if (shortcuthero) {
-  shortcuthero.addEventListener("click", function () {
-    modal.style.display = "flex";
-    cmodal.style.display = "none";
-
-    modalcard.style.transform = "scale(0.99) translateY(-10px)";
-    modalcard.style.opacity = "0";
-
-    requestAnimationFrame(() => {
-      modalcard.style.transition =
-        "transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)";
-      modalcard.style.transform = "scale(1) translateY(0)";
-      modalcard.style.opacity = "1";
-    });
-  });
-}
-
 if (contactBtn2) {
   contactBtn2.addEventListener("click", function () {
     cmodal.style.display = "flex";
-    modal.style.display = "none";
     cmodalcard.style.transform = "scale(0.99) translateY(-10px)";
     cmodalcard.style.opacity = "0";
 
@@ -268,15 +233,9 @@ document.addEventListener("keydown", function (event) {
     }
   }
 
-
-if (span) {
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
-}
-
-if (cspan) {
-  cspan.onclick = function () {
-    cmodal.style.display = "none";
-  };
-}})
+  if (cspan) {
+    cspan.onclick = function () {
+      cmodal.style.display = "none";
+    };
+  }
+});
