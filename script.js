@@ -186,6 +186,21 @@ if (shortcuthero) {
   });
 }
 
+if (contactBtn2) {
+  contactBtn2.addEventListener("click", function () {
+    cmodal.style.display = "flex";
+    cmodalcard.style.transform = "scale(0.99) translateY(-10px)";
+    cmodalcard.style.opacity = "0";
+
+    requestAnimationFrame(() => {
+      cmodalcard.style.transition =
+        "transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)";
+      cmodalcard.style.transform = "scale(1) translateY(0)";
+      cmodalcard.style.opacity = "1";
+    });
+  });
+}
+
 if (
   event.key === "c" &&
   !event.metaKey &&
