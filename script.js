@@ -113,18 +113,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const {
-  modal,
   cmodal,
-  modalcard,
   cmodalcard,
   contactBtn,
   contactBtn2,
   span,
   cspan,
-  copyk,
   copyc,
-  footercopy,
-  shortcuthero,
   animatedDiv,
 } = getModalElements();
 
