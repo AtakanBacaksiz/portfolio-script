@@ -211,7 +211,11 @@ document.addEventListener("keydown", function (event) {
       event.preventDefault();
     }
   }
-
+  if (cspan) {
+    cspan.onclick = function () {
+      cmodal.style.display = "none";
+    };
+  }
   if (event.key === "Escape") {
     if (cmodalcard && cmodal) {
       cmodalcard.style.transition =
@@ -225,10 +229,5 @@ document.addEventListener("keydown", function (event) {
 
       event.preventDefault();
     }
-  }
-  if (cspan) {
-    cspan.onclick = function () {
-      cmodal.style.display = "none";
-    };
   }
 });
