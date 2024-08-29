@@ -12,27 +12,10 @@ function getModalElements() {
     contactBtn2: document.querySelector("#contact-btn2"),
     cspan: document.querySelector("#modal-bg"),
     copyc: document.querySelector("#copy-mail-cbtn"),
-    animatedDiv: document.querySelector(".toast-message"),
   };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("#copy-wrap").forEach((trigger) => {
-    trigger.addEventListener("mouseover", function () {
-      this.querySelectorAll("#mail-text").forEach((target) =>
-        target.classList.add("underline")
-      );
-    });
-  });
-
-  document.querySelectorAll("#copy-wrap").forEach((trigger) => {
-    trigger.addEventListener("mouseout", function () {
-      this.querySelectorAll("#mail-text").forEach((target) =>
-        target.classList.remove("underline")
-      );
-    });
-  });
-
   // Hover in on #navbar-1
   document.querySelectorAll("#navbar-1").forEach((trigger) => {
     trigger.addEventListener("mouseover", function () {
