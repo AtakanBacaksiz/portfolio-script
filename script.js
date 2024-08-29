@@ -117,7 +117,6 @@ const {
   cmodalcard,
   contactBtn,
   contactBtn2,
-  span,
   cspan,
   copyc,
   animatedDiv,
