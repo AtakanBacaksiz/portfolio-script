@@ -10,7 +10,7 @@ function getModalElements() {
     cmodalcard: document.querySelector("#contact-card"),
     contactBtn: document.querySelector("#contact-btn"),
     contactBtn2: document.querySelector("#contact-btn2"),
-    cspan: document.querySelector(".modal-background.is-contact"),
+    cspan: document.querySelector("#modal-bg"),
     copyc: document.querySelector("#copy-mail-cbtn"),
     animatedDiv: document.querySelector(".toast-message"),
   };
