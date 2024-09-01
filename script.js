@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.add('clip-path-1')); 
   });
  }); 
-});
   // Hover in on #greatr
  document.querySelectorAll('#greatr').forEach(trigger => {
   trigger.addEventListener('mouseover', function(){ 
