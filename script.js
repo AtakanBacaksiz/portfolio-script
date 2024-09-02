@@ -34,22 +34,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-// Hover in on #greatr
-document.querySelectorAll("#greatr").forEach((trigger) => {
-  trigger.addEventListener("mouseover", function () {
-    document
-      .querySelectorAll(".bg-on-hover-works")
-      .forEach((target) => target.classList.add("clip-path-2"));
-  });
-});
 
-// Hover out on #greatr
-document.querySelectorAll("#greatr").forEach((trigger) => {
-  trigger.addEventListener("mouseout", function () {
-    document
-      .querySelectorAll(".bg-on-hover-works")
-      .forEach((target) => target.classList.remove("clip-path-2"));
+ // Hover in on #greatr
+ document.querySelectorAll('#greatr').forEach(trigger => {
+  trigger.addEventListener('mouseover', function(){ 
+    document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.add('clip-path-2')); 
   });
+ }); 
+ 
+ // Hover out on #greatr
+ document.querySelectorAll('#greatr').forEach(trigger => {
+  trigger.addEventListener('mouseout', function(){ 
+    document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.remove('clip-path-2')); 
+  });
+ }); 
 });
 
 // Hover in on #navbar-1
