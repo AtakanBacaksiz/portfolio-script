@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.remove('clip-path-2')); 
   });
  }); 
-});
 
 // Hover in on #navbar-1
 document.querySelectorAll("#navbar-1").forEach((trigger) => {
