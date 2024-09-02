@@ -16,21 +16,6 @@ function getModalElements() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("#copy-wrap").forEach((trigger) => {
-    trigger.addEventListener("mouseover", function () {
-      this.querySelectorAll("#mail-text").forEach((target) =>
-        target.classList.add("underline")
-      );
-    });
-  });
-
-  document.querySelectorAll("#copy-wrap").forEach((trigger) => {
-    trigger.addEventListener("mouseout", function () {
-      this.querySelectorAll("#mail-text").forEach((target) =>
-        target.classList.remove("underline")
-      );
-    });
-  });
   // Hover in on #smartcoach
   document.querySelectorAll("#smartcoach").forEach((trigger) => {
     trigger.addEventListener("mouseover", function () {
