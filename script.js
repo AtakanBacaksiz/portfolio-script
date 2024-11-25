@@ -71,6 +71,33 @@ document.addEventListener('DOMContentLoaded', () => {
   });
  }); 
 });
+
+// Hover in on #navbar-h
+document.querySelectorAll("#navbar-h").forEach((trigger) => {
+  trigger.addEventListener("mouseover", function () {
+    document
+      .querySelectorAll(".bg-on-hover")
+      .forEach((target) =>
+        [...target.parentElement.children]
+          .filter((c) => c === target)
+          .forEach((sibling) => sibling.classList.add("clip-path-2"))
+      );
+  });
+});
+
+// Hover out on #navbar-h
+document.querySelectorAll("#navbar-h").forEach((trigger) => {
+  trigger.addEventListener("mouseout", function () {
+    document
+      .querySelectorAll(".bg-on-hover")
+      .forEach((target) =>
+        [...target.parentElement.children]
+          .filter((c) => c === target)
+          .forEach((sibling) => sibling.classList.remove("clip-path-2"))
+      );
+  });
+});
+
 // Hover in on #navbar-1
 document.querySelectorAll("#navbar-1").forEach((trigger) => {
   trigger.addEventListener("mouseover", function () {
