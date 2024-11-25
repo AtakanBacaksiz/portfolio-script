@@ -16,12 +16,32 @@ function getModalElements() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Hover in on #param
+  document.querySelectorAll("#param").forEach((trigger) => {
+    trigger.addEventListener("mouseover", function () {
+      document
+        .querySelectorAll(".bg-on-hover-works")
+        .forEach((target) => target.classList.add("clip-path-1"));
+    });
+  });
+
+  // Hover out on #param
+  document.querySelectorAll("#param").forEach((trigger) => {
+    trigger.addEventListener("mouseout", function () {
+      document
+        .querySelectorAll(".bg-on-hover-works")
+        .forEach((target) => target.classList.remove("clip-path-1"));
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
   // Hover in on #smartcoach
   document.querySelectorAll("#smartcoach").forEach((trigger) => {
     trigger.addEventListener("mouseover", function () {
       document
         .querySelectorAll(".bg-on-hover-works")
-        .forEach((target) => target.classList.add("clip-path-1"));
+        .forEach((target) => target.classList.add("clip-path-2"));
     });
   });
 
@@ -30,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     trigger.addEventListener("mouseout", function () {
       document
         .querySelectorAll(".bg-on-hover-works")
-        .forEach((target) => target.classList.remove("clip-path-1"));
+        .forEach((target) => target.classList.remove("clip-path-2"));
     });
   });
 });
@@ -40,14 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
  // Hover in on #greatr
  document.querySelectorAll('#greatr').forEach(trigger => {
   trigger.addEventListener('mouseover', function(){ 
-    document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.add('clip-path-2')); 
+    document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.add('clip-path-3')); 
   });
  }); 
  
  // Hover out on #greatr
  document.querySelectorAll('#greatr').forEach(trigger => {
   trigger.addEventListener('mouseout', function(){ 
-    document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.remove('clip-path-2')); 
+    document.querySelectorAll('.bg-on-hover-works').forEach(target => target.classList.remove('clip-path-3')); 
   });
  }); 
 });
