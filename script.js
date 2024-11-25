@@ -80,7 +80,7 @@ document.querySelectorAll("#navbar-h").forEach((trigger) => {
       .forEach((target) =>
         [...target.parentElement.children]
           .filter((c) => c === target)
-          .forEach((sibling) => sibling.classList.add("clip-path-2"))
+          .forEach((sibling) => sibling.classList.add("clip-path-3"))
       );
   });
 });
@@ -93,7 +93,7 @@ document.querySelectorAll("#navbar-h").forEach((trigger) => {
       .forEach((target) =>
         [...target.parentElement.children]
           .filter((c) => c === target)
-          .forEach((sibling) => sibling.classList.remove("clip-path-2"))
+          .forEach((sibling) => sibling.classList.remove("clip-path-3"))
       );
   });
 });
