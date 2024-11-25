@@ -124,31 +124,6 @@ document.querySelectorAll("#navbar-1").forEach((trigger) => {
   });
 });
 
-// Hover in on #navbar-2
-document.querySelectorAll("#navbar-2").forEach((trigger) => {
-  trigger.addEventListener("mouseover", function () {
-    document
-      .querySelectorAll(".bg-on-hover")
-      .forEach((target) =>
-        [...target.parentElement.children]
-          .filter((c) => c === target)
-          .forEach((sibling) => sibling.classList.add("clip-path-2"))
-      );
-  });
-});
-
-// Hover out on #navbar-2
-document.querySelectorAll("#navbar-2").forEach((trigger) => {
-  trigger.addEventListener("mouseout", function () {
-    document
-      .querySelectorAll(".bg-on-hover")
-      .forEach((target) =>
-        [...target.parentElement.children]
-          .filter((c) => c === target)
-          .forEach((sibling) => sibling.classList.remove("clip-path-2"))
-      );
-  });
-});
 
 // Hover in on #contact-btn
 document.querySelectorAll("#contact-btn").forEach((trigger) => {
@@ -158,7 +133,7 @@ document.querySelectorAll("#contact-btn").forEach((trigger) => {
       .forEach((target) =>
         [...target.parentElement.children]
           .filter((c) => c === target)
-          .forEach((sibling) => sibling.classList.add("clip-path-3"))
+          .forEach((sibling) => sibling.classList.add("clip-path-2"))
       );
   });
 });
@@ -171,7 +146,7 @@ document.querySelectorAll("#contact-btn").forEach((trigger) => {
       .forEach((target) =>
         [...target.parentElement.children]
           .filter((c) => c === target)
-          .forEach((sibling) => sibling.classList.remove("clip-path-3"))
+          .forEach((sibling) => sibling.classList.remove("clip-path-2"))
       );
   });
 });
