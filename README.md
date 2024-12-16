@@ -1,1 +1,1 @@
-[atakanbacaksiz.co](https://www.atakanbacaksiz.co/)
+[View portfolio website](https://www.atakan.fyi/)
