@@ -195,14 +195,14 @@ if (copyc) {
 if (contactBtn) {
   contactBtn.addEventListener("click", function () {
     cmodal.style.display = "flex";
-    cmodalcard.style.transform = "scale(0.99) translateY(-10px)";
+    cmodalcard.style.transform = "translateY(100%)"; // Start below the viewport
     cmodalcard.style.opacity = "0";
 
     requestAnimationFrame(() => {
       cmodalcard.style.transition =
-        "transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)";
-      cmodalcard.style.transform = "scale(1) translateY(0)";
-      cmodalcard.style.opacity = "1";
+        "transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)";
+      cmodalcard.style.transform = "translateY(0)"; // End at the final position
+      cmodalcard.style.opacity = "1"; // Fade in
     });
   });
 }
@@ -210,14 +210,14 @@ if (contactBtn) {
 if (contactBtn2) {
   contactBtn2.addEventListener("click", function () {
     cmodal.style.display = "flex";
-    cmodalcard.style.transform = "scale(0.99) translateY(-10px)";
+    cmodalcard.style.transform = "translateY(100%)"; // Start below the viewport
     cmodalcard.style.opacity = "0";
 
     requestAnimationFrame(() => {
       cmodalcard.style.transition =
-        "transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)";
-      cmodalcard.style.transform = "scale(1) translateY(0)";
-      cmodalcard.style.opacity = "1";
+        "transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)";
+      cmodalcard.style.transform = "translateY(0)"; // End at the final position
+      cmodalcard.style.opacity = "1"; // Fade in
     });
   });
 }
