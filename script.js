@@ -12,6 +12,7 @@ function getModalElements() {
     contactBtn2: document.querySelector("#contact-btn2"),
     cspan: document.querySelector("#modal-bg"),
     copyc: document.querySelector("#copy-mail-cbtn"),
+    switch:document.querySelector("#switch"),
   };
 }
 
@@ -72,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   addHoverEffect("#navbar-1", "clip-path-2");
   addHoverEffect("#navbar-2", "clip-path-3");
   addHoverEffect("#contact-btn", "clip-path-4");
+  addHoverEffect("#switch", "clip-path-5");
 
   // Add hover effects for social links
   addSocialHoverEffect("#resume", "clip-path-1");
