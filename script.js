@@ -15,7 +15,7 @@ function getModalElements() {
   };
 }
 
-// Refactored hover functionality into reusable functions
+// Hover functionality for main navigation
 function addHoverEffect(elementId, clipPathClass) {
   document.querySelectorAll(elementId).forEach((trigger) => {
     trigger.addEventListener("mouseover", () => {
@@ -40,11 +40,42 @@ function addHoverEffect(elementId, clipPathClass) {
   });
 }
 
+// Hover functionality for social links
+function addSocialHoverEffect(elementId, clipPathClass) {
+  document.querySelectorAll(elementId).forEach((trigger) => {
+    trigger.addEventListener("mouseover", () => {
+      document.querySelectorAll(".bg-on-hover-social").forEach((target) => {
+        if (target.parentElement) {
+          [...target.parentElement.children]
+            .filter((c) => c === target)
+            .forEach((sibling) => sibling.classList.add(clipPathClass));
+        }
+      });
+    });
+
+    trigger.addEventListener("mouseout", () => {
+      document.querySelectorAll(".bg-on-hover-social").forEach((target) => {
+        if (target.parentElement) {
+          [...target.parentElement.children]
+            .filter((c) => c === target)
+            .forEach((sibling) => sibling.classList.remove(clipPathClass));
+        }
+      });
+    });
+  });
+}
+
 // Wait for DOM to be fully loaded before adding event listeners
 document.addEventListener("DOMContentLoaded", () => {
-  // Add hover effects for all elements
+  // Add hover effects for main navigation
   addHoverEffect("#navbar-h", "clip-path-1");
   addHoverEffect("#navbar-1", "clip-path-2");
   addHoverEffect("#navbar-2", "clip-path-3");
   addHoverEffect("#contact-btn", "clip-path-4");
+
+  // Add hover effects for social links
+  addSocialHoverEffect("#resume", "clip-path-1");
+  addSocialHoverEffect("#x", "clip-path-2");
+  addSocialHoverEffect("#linkedin", "clip-path-3");
+  addSocialHoverEffect("#dribbble", "clip-path-4");
 });
