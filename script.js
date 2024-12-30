@@ -81,49 +81,54 @@ document.addEventListener("DOMContentLoaded", function () {
   const connectModal = document.querySelector(".connect-modal");
   const modalCard = document.querySelector(".modal-card.inline");
 
-  let isInside = false; // Track if the cursor is inside the modal or trigger
+  let isHovering = false; // Track if the cursor is in the hover zone
 
   // Function to expand the modal
   const showModal = () => {
-    gsap.killTweensOf(modalCard); // Stop any ongoing animations
-    gsap.set(modalCard, { clearProps: "all" }); // Reset the animation state
-    gsap.fromTo(
-      modalCard,
-      { height: 0, opacity: 0 }, // Start collapsed
-      {
-        height: "auto",
-        opacity: 1,
-        duration: 0.8,
-        ease: "expo.out", // Smooth easing for expansion
-      }
-    );
+    if (!isHovering) {
+      // Only play animation if not already active
+      isHovering = true; // Set hover state to true
+      gsap.killTweensOf(modalCard); // Stop ongoing animations
+      gsap.fromTo(
+        modalCard,
+        { height: 0, opacity: 0 }, // Start collapsed
+        {
+          height: "auto",
+          opacity: 1,
+          duration: 0.8,
+          ease: "expo.out", // Smooth easing for expansion
+        }
+      );
+    }
   };
 
   // Function to collapse the modal
   const hideModal = () => {
-    gsap.killTweensOf(modalCard); // Stop any ongoing animations
-    gsap.to(modalCard, {
-      height: 0,
-      opacity: 0,
-      duration: 0.5,
-      ease: "power2.in", // Faster, sharper easing for collapse
-    });
+    if (isHovering) {
+      // Only play collapse animation if hover state is active
+      isHovering = false; // Set hover state to false
+      gsap.killTweensOf(modalCard); // Stop ongoing animations
+      gsap.to(modalCard, {
+        height: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.in", // Faster, sharper easing for collapse
+      });
+    }
   };
 
-  // Set `isInside` to true when cursor enters either element
+  // Handle mouseenter events
   const handleMouseEnter = () => {
-    isInside = true;
     showModal(); // Trigger expansion
   };
 
-  // Set `isInside` to false and collapse only if cursor leaves both elements
+  // Handle mouseleave events
   const handleMouseLeave = () => {
-    isInside = false;
     setTimeout(() => {
-      if (!isInside) {
+      if (!isHovering) {
         hideModal(); // Trigger collapse animation
       }
-    }, 50); // Delay to avoid flickering when quickly moving between elements
+    }, 50); // Delay to avoid flickering
   };
 
   // Add event listeners
