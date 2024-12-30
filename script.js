@@ -87,19 +87,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggleModal = (expand) => {
     const state = Flip.getState(modalCard); // Capture the initial state
     modalCard.style.height = expand ? "auto" : "0px"; // Set the target height
-    modalCard.style.opacity = expand ? "1" : "0"; // Set the target opacity
 
     Flip.from(state, {
-      duration: 0.582, // Matches your timing
-      ease: "springEase", // Use spring-like easing
-      x: expand ? 300 : 0, // Shift horizontally on expand
+      duration: 1.2, // Longer duration for elastic effect
+      ease: expand ? "elastic.out(1, 0.3)" : "elastic.in(1, 0.3)", // Elastic easing for expand/collapse
       onEnter: () => {
         modalCard.style.pointerEvents = "all"; // Enable interactions on expand
-        gsap.to(modalCard, { opacity: 1, duration: 0.4, ease: "power2.out" }); // Smooth fade-in
+        gsap.to(modalCard, { opacity: 1, duration: 0.6, ease: "power2.out" }); // Smooth fade-in
       },
       onLeave: () => {
+        gsap.to(modalCard, { opacity: 0, duration: 0.6, ease: "power2.in" }); // Smooth fade-out
         modalCard.style.pointerEvents = "none"; // Disable interactions on collapse
-        gsap.to(modalCard, { opacity: 0, duration: 0.4, ease: "power2.in" }); // Smooth fade-out
       },
     });
   };
