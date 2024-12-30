@@ -16,28 +16,27 @@ function getModalElements() {
   };
 }
 
-// Hover functionality for main navigation
-function addHoverEffect(elementId, clipPathClass) {
+// Hover and current state functionality for main navigation
+function addHoverAndCurrentEffect(elementId, clipPathClass) {
   document.querySelectorAll(elementId).forEach((trigger) => {
-    trigger.addEventListener("mouseover", () => {
+    const applyClass = (action) => {
       document.querySelectorAll(".bg-on-hover").forEach((target) => {
         if (target.parentElement) {
           [...target.parentElement.children]
             .filter((c) => c === target)
-            .forEach((sibling) => sibling.classList.add(clipPathClass));
+            .forEach((sibling) => sibling.classList[action](clipPathClass));
         }
       });
-    });
+    };
 
-    trigger.addEventListener("mouseout", () => {
-      document.querySelectorAll(".bg-on-hover").forEach((target) => {
-        if (target.parentElement) {
-          [...target.parentElement.children]
-            .filter((c) => c === target)
-            .forEach((sibling) => sibling.classList.remove(clipPathClass));
-        }
-      });
-    });
+    // Apply class on hover
+    trigger.addEventListener("mouseover", () => applyClass('add'));
+    trigger.addEventListener("mouseout", () => applyClass('remove'));
+
+    // Apply class if the element is in the current state
+    if (trigger.classList.contains('current')) {
+      applyClass('add');
+    }
   });
 }
 
@@ -68,12 +67,12 @@ function addSocialHoverEffect(elementId, clipPathClass) {
 
 // Wait for DOM to be fully loaded before adding event listeners
 document.addEventListener("DOMContentLoaded", () => {
-  // Add hover effects for main navigation
-  addHoverEffect("#navbar-h", "clip-path-1");
-  addHoverEffect("#navbar-1", "clip-path-2");
-  addHoverEffect("#navbar-2", "clip-path-3");
-  addHoverEffect("#contact-btn", "clip-path-4");
-  addHoverEffect("#switch", "clip-path-5");
+  // Add hover and current effects for main navigation
+  addHoverAndCurrentEffect("#navbar-h", "clip-path-1");
+  addHoverAndCurrentEffect("#navbar-1", "clip-path-2");
+  addHoverAndCurrentEffect("#navbar-2", "clip-path-3");
+  addHoverAndCurrentEffect("#contact-btn", "clip-path-4");
+  addHoverAndCurrentEffect("#switch", "clip-path-5");
 
   // Add hover effects for social links
   addSocialHoverEffect("#resume", "clip-path-1");
