@@ -83,28 +83,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let isInside = false; // Track if the cursor is inside the modal or trigger
 
-  // GSAP animation timeline for showing and hiding the modal card
-  const modalAnimation = gsap.timeline({ paused: true }).fromTo(
+  // GSAP animation timeline for expanding the modal card
+  const expandAnimation = gsap.timeline({ paused: true }).fromTo(
     modalCard,
     { height: 0, opacity: 0 }, // Start collapsed
     {
       height: "auto",
       opacity: 1,
-      duration: 0.4,
-      ease: "expo.out",
+      duration: 0.8,
+      ease: "expo.out", // Smooth easing for expansion
     }
   );
 
-  // Function to show the modal
+  // Function to expand the modal
   const showModal = () => {
-    modalAnimation.vars.ease = "back.out"; // Set easing for expansion
-    modalAnimation.play(); // Expand the modal
+    expandAnimation.play(); // Play the expansion animation
   };
 
-  // Function to hide the modal
+  // Function to collapse the modal
   const hideModal = () => {
-    modalAnimation.vars.ease = "expo.out"; // Set easing for collapse
-    modalAnimation.reverse(); // Collapse the modal
+    gsap.to(modalCard, {
+      height: 0,
+      opacity: 0,
+      duration: 0.5,
+      ease: "power2.in", // Faster, sharper easing for collapse
+    });
   };
 
   // Set `isInside` to true when cursor enters either element
@@ -118,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     isInside = false;
     setTimeout(() => {
       if (!isInside) {
-        hideModal();
+        hideModal(); // Trigger collapse animation
       }
     }, 50); // Delay to avoid flickering when quickly moving between elements
   };
