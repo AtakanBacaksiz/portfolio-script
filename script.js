@@ -157,9 +157,9 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       opacity: 0,
       x: -100, // Moves in from the left
-      duration: 0.8, // Duration for each line
+      duration: 0.4, // Duration for each line
       ease: "expo.out", // Smooth easing
-      stagger: { each: 0.4, overlap: -0.3 }, // Overlap lines for smoother flow
+      stagger: { each: 0.2, overlap: -0.4 }, // Overlap lines for smoother flow
       filter: "blur(10px)", // Start with blur
     },
     "<"
