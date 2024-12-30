@@ -1,7 +1,3 @@
-tesr
-
-
-
 $(window).on("load", function () {
   Webflow.validClick = function () {
     return true;
