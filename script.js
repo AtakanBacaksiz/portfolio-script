@@ -15,25 +15,25 @@ function getModalElements() {
   };
 }
 
-// Current state functionality for main navigation
-function addCurrentStateEffect(elementId, clipPathClass) {
+// Hover functionality for main navigation
+function addHoverEffect(elementId, clipPathClass) {
   document.querySelectorAll(elementId).forEach((trigger) => {
-    trigger.addEventListener("click", () => {
-      // Remove the class from all elements first
+    trigger.addEventListener("mouseover", () => {
+      document.querySelectorAll(".bg-on-hover").forEach((target) => {
+        if (target.parentElement) {
+          [...target.parentElement.children]
+            .filter((c) => c === target)
+            .forEach((sibling) => sibling.classList.add(clipPathClass));
+        }
+      });
+    });
+
+    trigger.addEventListener("mouseout", () => {
       document.querySelectorAll(".bg-on-hover").forEach((target) => {
         if (target.parentElement) {
           [...target.parentElement.children]
             .filter((c) => c === target)
             .forEach((sibling) => sibling.classList.remove(clipPathClass));
-        }
-      });
-
-      // Add the class to the clicked element
-      document.querySelectorAll(".bg-on-hover").forEach((target) => {
-        if (target.parentElement && target.parentElement.contains(trigger)) {
-          [...target.parentElement.children]
-            .filter((c) => c === target)
-            .forEach((sibling) => sibling.classList.add(clipPathClass));
         }
       });
     });
@@ -65,51 +65,13 @@ function addSocialHoverEffect(elementId, clipPathClass) {
   });
 }
 
-// Function to update current state based on section visibility
-function updateCurrentStateOnScroll(sections, navItems, clipPathClasses) {
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.5 // Adjust this threshold as needed
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const index = sections.indexOf(entry.target);
-      if (entry.isIntersecting) {
-        // Add current state class to the corresponding nav item
-        navItems.forEach((navItem, i) => {
-          if (i === index) {
-            navItem.classList.add(clipPathClasses[i]);
-          } else {
-            navItem.classList.remove(clipPathClasses[i]);
-          }
-        });
-      }
-    });
-  }, observerOptions);
-
-  sections.forEach((section) => observer.observe(section));
-}
-
 // Wait for DOM to be fully loaded before adding event listeners
 document.addEventListener("DOMContentLoaded", () => {
-  const sections = [
-    document.querySelector("#showcase"),
-    document.querySelector("#testimonial"),
-    document.querySelector("#about-me")
-  ];
-
-  const navItems = [
-    document.querySelector("#navbar-h"),
-    document.querySelector("#navbar-1"),
-    document.querySelector("#navbar-2")
-  ];
-
-  const clipPathClasses = ["clip-path-1", "clip-path-2", "clip-path-3"];
-
-  // Update current state based on scroll
-  updateCurrentStateOnScroll(sections, navItems, clipPathClasses);
+  // Add hover effects for main navigation
+  addHoverEffect("#navbar-h", "clip-path-1");
+  addHoverEffect("#navbar-1", "clip-path-2");
+  addHoverEffect("#navbar-2", "clip-path-3");
+  addHoverEffect("#contact-btn", "clip-path-4");
 
   // Add hover effects for social links
   addSocialHoverEffect("#resume", "clip-path-1");
