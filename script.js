@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       opacity: 0, // Fading in
       y: -30, // Small upward movement for subtle effect
-      duration: 0.5, // Duration for each line
+      duration: 1, // Duration for each line
       ease: "power2.out", // Smooth easing
       stagger: { each: 0.1, overlap: -0.3 }, // Overlapping animations
       filter: "blur(10px)", // Start with blur
