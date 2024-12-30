@@ -64,10 +64,10 @@ function addSocialHoverEffect(elementId, clipPathClass) {
 // Wait for DOM to be fully loaded before adding event listeners
 document.addEventListener("DOMContentLoaded", () => {
   // Add hover effects for main navigation
-  addHoverEffect("#navbar-h", "clip-path-1");
-  addHoverEffect("#navbar-1", "clip-path-2");
-  addHoverEffect("#navbar-2", "clip-path-3");
-  addHoverEffect("#contact-btn", "clip-path-4");
+  addHoverEffect("#navbar-h", "clip-path-2");
+  addHoverEffect("#navbar-1", "clip-path-1");
+  addHoverEffect("#navbar-2", "clip-path-4");
+  addHoverEffect("#contact-btn", "clip-path-3");
   addHoverEffect("#switch", "clip-path-5");
 
   // Add hover effects for social links
