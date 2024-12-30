@@ -89,14 +89,14 @@ document.addEventListener("DOMContentLoaded", function () {
     modalCard.style.height = expand ? "auto" : "0px"; // Set the target height
 
     Flip.from(state, {
-      duration: 1.5, // Longer duration for elastic effect
-      ease: expand ? "elastic.out(1.5, 0.4)" : "elastic.in(1.5, 0.4)", // Longer elastic effect for expand/collapse
+      duration: 1.2, // Smooth duration
+      ease: "expo.out", // Smooth deceleration for expand/collapse
       onEnter: () => {
         modalCard.style.pointerEvents = "all"; // Enable interactions on expand
-        gsap.to(modalCard, { opacity: 1, duration: 0.8, ease: "power2.out" }); // Smooth fade-in
+        gsap.to(modalCard, { opacity: 1, duration: 0.6, ease: "expo.out" }); // Smooth fade-in
       },
       onLeave: () => {
-        gsap.to(modalCard, { opacity: 0, duration: 0.8, ease: "power2.in" }); // Smooth fade-out
+        gsap.to(modalCard, { opacity: 0, duration: 0.6, ease: "expo.in" }); // Smooth fade-out
         modalCard.style.pointerEvents = "none"; // Disable interactions on collapse
       },
     });
