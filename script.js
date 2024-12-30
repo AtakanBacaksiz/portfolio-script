@@ -83,25 +83,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let isInside = false; // Track if the cursor is inside the modal or trigger
 
-  // GSAP animation timeline for expanding the modal card
-  const expandAnimation = gsap.timeline({ paused: true }).fromTo(
-    modalCard,
-    { height: 0, opacity: 0 }, // Start collapsed
-    {
-      height: "auto",
-      opacity: 1,
-      duration: 0.8,
-      ease: "expo.out", // Smooth easing for expansion
-    }
-  );
-
   // Function to expand the modal
   const showModal = () => {
-    expandAnimation.play(); // Play the expansion animation
+    gsap.killTweensOf(modalCard); // Stop any ongoing animations
+    gsap.set(modalCard, { clearProps: "all" }); // Reset the animation state
+    gsap.fromTo(
+      modalCard,
+      { height: 0, opacity: 0 }, // Start collapsed
+      {
+        height: "auto",
+        opacity: 1,
+        duration: 0.8,
+        ease: "expo.out", // Smooth easing for expansion
+      }
+    );
   };
 
   // Function to collapse the modal
   const hideModal = () => {
+    gsap.killTweensOf(modalCard); // Stop any ongoing animations
     gsap.to(modalCard, {
       height: 0,
       opacity: 0,
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set `isInside` to true when cursor enters either element
   const handleMouseEnter = () => {
     isInside = true;
-    showModal();
+    showModal(); // Trigger expansion
   };
 
   // Set `isInside` to false and collapse only if cursor leaves both elements
