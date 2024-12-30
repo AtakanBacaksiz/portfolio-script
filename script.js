@@ -97,13 +97,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to show the modal
   const showModal = () => {
-    modalAnimation.vars.ease = "expo.out"; // Set easing for expansion
+    modalAnimation.vars.ease = "back.out"; // Set easing for expansion
     modalAnimation.play(); // Expand the modal
   };
 
   // Function to hide the modal
   const hideModal = () => {
-    modalAnimation.vars.ease = "power2.in"; // Set easing for collapse
+    modalAnimation.vars.ease = "expo.out"; // Set easing for collapse
     modalAnimation.reverse(); // Collapse the modal
   };
 
