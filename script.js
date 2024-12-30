@@ -10,8 +10,9 @@ function getModalElements() {
     cmodalcard: document.querySelector("#contact-card"),
     contactBtn: document.querySelector("#contact-btn"),
     contactBtn2: document.querySelector("#contact-btn2"),
-    cspan: document.querySelector("#modal-bg"),
+    cspan: document.querySelector(".modal-background.is-contact"),
     copyc: document.querySelector("#copy-mail-cbtn"),
+    shortcuthero: document.querySelector("#shortcut-hero"),
     animatedDiv: document.querySelector(".toast-message"),
   };
 }
@@ -119,6 +120,7 @@ const {
   contactBtn2,
   cspan,
   copyc,
+  shortcuthero,
   animatedDiv,
 } = getModalElements();
 
@@ -168,6 +170,22 @@ if (contactBtn) {
   });
 }
 
+if (shortcuthero) {
+  shortcuthero.addEventListener("click", function () {
+    cmodal.style.display = "flex";
+
+    cmodalcard.style.transform = "scale(0.99) translateY(-10px)";
+    cmodalcard.style.opacity = "0";
+
+    requestAnimationFrame(() => {
+      cmodalcard.style.transition =
+        "transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)";
+      cmodalcard.style.transform = "scale(1) translateY(0)";
+      cmodalcard.style.opacity = "1";
+    });
+  });
+}
+
 if (contactBtn2) {
   contactBtn2.addEventListener("click", function () {
     cmodal.style.display = "flex";
@@ -183,51 +201,57 @@ if (contactBtn2) {
   });
 }
 
-document.addEventListener("keydown", function (event) {
-  if (
-    event.key === "c" &&
-    !event.metaKey &&
-    !event.ctrlKey &&
-    !event.altKey &&
-    !event.shiftKey
-  ) {
-    if (cmodalcard && cmodal) {
-      cmodalcard.style.transform = "scale(1) translateY(0)";
-      cmodalcard.animate(
-        [
-          {
-            transform: "scaleX(0.99) scaleY(0.99) translateY(-10px)",
-            opacity: 0,
-          },
-          { transform: "scale(1) translateY(0)", opacity: 1 },
-        ],
+if (
+  event.key === "c" &&
+  !event.metaKey &&
+  !event.ctrlKey &&
+  !event.altKey &&
+  !event.shiftKey
+) {
+  if (cmodalcard && cmodal && modal) {
+    cmodalcard.style.transform = "scale(1) translateY(0)";
+    cmodalcard.animate(
+      [
         {
-          duration: 100,
-          easing: "ease-out",
-          fill: "forwards",
-        }
-      );
-      cmodal.style.display = cmodal.style.display === "flex" ? "none" : "flex";
-      event.preventDefault();
-    }
+          transform: "scaleX(0.99) scaleY(0.99) translateY(-10px)",
+          opacity: 0,
+        },
+        { transform: "scale(1) translateY(0)", opacity: 1 },
+      ],
+      {
+        duration: 100,
+        easing: "ease-out",
+        fill: "forwards",
+      }
+    );
+    cmodal.style.display = cmodal.style.display === "flex" ? "none" : "flex";
+    modal.style.display = "none";
+    event.preventDefault();
   }
-  if (cspan) {
-    cspan.onclick = function () {
-      cmodal.style.display = "none";
-    };
-  }
-  if (event.key === "Escape") {
-    if (cmodalcard && cmodal) {
-      cmodalcard.style.transition =
-        "transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)";
-      cmodalcard.style.transform = "scale(0.99) translateY(-10px)";
-      cmodalcard.style.opacity = "0";
+}
 
-      setTimeout(() => {
-        cmodal.style.display = "none";
-      }, 0);
+if (event.key === "Escape") {
+  if (modalcard && modal) {
+    modalcard.style.transition =
+      "transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)";
+    modalcard.style.transform = "scale(0.99) translateY(-10px)";
+    modalcard.style.opacity = "0";
 
-      event.preventDefault();
-    }
+    setTimeout(() => {
+      modal.style.display = "none";
+    }, 0);
+
+    event.preventDefault();
   }
-});
+
+  if (cmodal) {
+    cmodal.style.display = "none";
+    event.preventDefault();
+  }
+}
+
+if (cspan) {
+  cspan.onclick = function () {
+    cmodal.style.display = "none";
+  };
+}
