@@ -117,24 +117,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Handle mouseenter events
-  const handleMouseEnter = () => {
-    showModal(); // Trigger expansion
-  };
-
-  // Handle mouseleave events
+  // Function to check if the cursor leaves both elements
   const handleMouseLeave = () => {
     setTimeout(() => {
-      if (!isHovering) {
-        hideModal(); // Trigger collapse animation
+      if (!connectModal.matches(":hover") && !modalCard.matches(":hover")) {
+        hideModal(); // Trigger collapse animation only if neither element is hovered
       }
     }, 50); // Delay to avoid flickering
   };
 
-  // Add event listeners
-  connectModal.addEventListener("mouseenter", handleMouseEnter);
-  modalCard.addEventListener("mouseenter", handleMouseEnter);
+  // Handle mouseenter for both elements
+  connectModal.addEventListener("mouseenter", showModal);
+  modalCard.addEventListener("mouseenter", showModal);
 
+  // Handle mouseleave for both elements
   connectModal.addEventListener("mouseleave", handleMouseLeave);
   modalCard.addEventListener("mouseleave", handleMouseLeave);
 });
