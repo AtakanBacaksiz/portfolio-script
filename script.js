@@ -78,30 +78,56 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // GSAP Timeline for animations
-  let tl = gsap.timeline();
+  const connectModal = document.querySelector(".connect-modal");
+  const modalCard = document.querySelector(".modal-card.inline");
 
-  // Animate Navbar Container from bottom with blur
-  tl.from(".navbar_container", {
-    opacity: 0,
-    y: 200, // Navbar comes from farther away
-    duration: 1, // Smooth longer duration
-    ease: "expo.out", // Smooth deceleration
-    filter: "blur(10px)", // Start with blur
-  });
+  let isExpanded = false; // Track the modal's expanded state
 
-  // Animate Heading as a single block with fade-in effect
-  tl.from(".heading-style-h1", {
-    opacity: 0, // Fading in
-    y: -30, // Slight upward movement
-    duration: 0.8, // Smooth duration
-    ease: "expo.out", // Smooth easing for fade-in
-    filter: "blur(10px)", // Start with blur
-  }).to(".heading-style-h1", {
-    filter: "blur(0px)", // Remove blur after animation
-    duration: 0.2,
-    ease: "expo.out", // Smooth easing for blur removal
-  });
+  // Function to toggle modal state
+  const toggleModal = (expand) => {
+    const state = Flip.getState(modalCard); // Capture the initial state
+    modalCard.style.height = expand ? "auto" : "0px"; // Set the target height
+    modalCard.style.opacity = expand ? "1" : "0"; // Set the target opacity
+
+    Flip.from(state, {
+      duration: 0.8,
+      ease: expand ? "expo.out" : "power2.in", // Use different easings for expand/collapse
+      onEnter: () => (modalCard.style.pointerEvents = expand ? "all" : "none"), // Enable interactions on expand
+      onLeave: () => (modalCard.style.pointerEvents = "none"), // Disable interactions on collapse
+    });
+  };
+
+  // Show the modal
+  const showModal = () => {
+    if (!isExpanded) {
+      isExpanded = true;
+      toggleModal(true); // Expand the modal
+    }
+  };
+
+  // Hide the modal
+  const hideModal = () => {
+    if (isExpanded) {
+      isExpanded = false;
+      toggleModal(false); // Collapse the modal
+    }
+  };
+
+  // Check if the cursor is outside both elements
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      if (!connectModal.matches(":hover") && !modalCard.matches(":hover")) {
+        hideModal(); // Collapse only if neither element is hovered
+      }
+    }, 50); // Small delay to avoid flickering
+  };
+
+  // Add event listeners
+  connectModal.addEventListener("mouseenter", showModal);
+  modalCard.addEventListener("mouseenter", showModal);
+
+  connectModal.addEventListener("mouseleave", handleMouseLeave);
+  modalCard.addEventListener("mouseleave", handleMouseLeave);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
