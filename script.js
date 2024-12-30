@@ -6,12 +6,8 @@ $(window).on("load", function () {
 
 function getModalElements() {
   return {
-    cmodal: document.querySelector("#contact-modal"),
-    cmodalcard: document.querySelector("#contact-card"),
     contactBtn: document.querySelector("#contact-btn"),
     contactBtn2: document.querySelector("#contact-btn2"),
-    cspan: document.querySelector("#modal-bg"),
-    copyc: document.querySelector("#copy-mail-cbtn"),
   };
 }
 
