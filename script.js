@@ -136,9 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Split the text into lines
-  let splitText = new SplitType(".heading-style-h1", { types: "lines" });
-
   // GSAP Timeline for animations
   let tl = gsap.timeline();
 
@@ -151,25 +148,16 @@ document.addEventListener("DOMContentLoaded", function () {
     filter: "blur(10px)", // Start with blur
   });
 
-  // Animate Heading Lines with fade-in effect
-  tl.from(
-    splitText.lines,
-    {
-      opacity: 0, // Fading in
-      y: -30, // Small upward movement for subtle effect
-      duration: 1, // Duration for each line
-      ease: "power2.out", // Smooth easing
-      stagger: { each: 0.1, overlap: -0.3 }, // Overlapping animations
-      filter: "blur(10px)", // Start with blur
-    },
-    "<"
-  ).to(
-    splitText.lines,
-    {
-      filter: "blur(0px)", // Remove blur after animation
-      duration: 0.2,
-      ease: "power1.out",
-    },
-    "<"
-  );
+  // Animate Heading as a single block with fade-in effect
+  tl.from(".heading-style-h1", {
+    opacity: 0, // Fading in
+    y: -30, // Slight upward movement
+    duration: 0.8, // Smooth duration
+    ease: "expo.out", // Smooth easing for fade-in
+    filter: "blur(10px)", // Start with blur
+  }).to(".heading-style-h1", {
+    filter: "blur(0px)", // Remove blur after animation
+    duration: 0.2,
+    ease: "expo.out", // Smooth easing for blur removal
+  });
 });
