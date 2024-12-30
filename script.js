@@ -151,12 +151,6 @@ document.addEventListener("DOMContentLoaded", function () {
     filter: "blur(10px)", // Start with blur
   });
 
-  // Apply overflow:hidden to the parent container of each line
-  splitText.lines.forEach((line) => {
-    let parent = line.parentElement;
-    gsap.set(parent, { overflow: "hidden" });
-  });
-
   // Animate Heading Lines with fade-in effect
   tl.from(
     splitText.lines,
