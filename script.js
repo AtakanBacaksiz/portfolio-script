@@ -130,3 +130,29 @@ document.addEventListener("DOMContentLoaded", function () {
     ease: "expo.out", // Smooth easing for blur removal
   });
 });
+document.addEventListener("DOMContentLoaded", function () {
+  // GSAP Timeline for animations
+  let tl = gsap.timeline();
+
+  // Animate Navbar Container from bottom with blur
+  tl.from(".navbar_container", {
+    opacity: 0,
+    y: 200, // Navbar comes from farther away
+    duration: 1, // Smooth longer duration
+    ease: "expo.out", // Smooth deceleration
+    filter: "blur(10px)", // Start with blur
+  });
+
+  // Animate Heading as a single block with fade-in effect
+  tl.from(".heading-style-h1", {
+    opacity: 0, // Fading in
+    y: -30, // Slight upward movement
+    duration: 0.8, // Smooth duration
+    ease: "expo.out", // Smooth easing for fade-in
+    filter: "blur(10px)", // Start with blur
+  }).to(".heading-style-h1", {
+    filter: "blur(0px)", // Remove blur after animation
+    duration: 0.2,
+    ease: "expo.out", // Smooth easing for blur removal
+  });
+});
