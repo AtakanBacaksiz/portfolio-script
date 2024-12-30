@@ -151,17 +151,22 @@ document.addEventListener("DOMContentLoaded", function () {
     filter: "blur(10px)", // Start with blur
   });
 
-  // Animate Heading Lines with overlapping animation (starts simultaneously)
+  // Apply overflow:hidden to the parent container of each line
+  splitText.lines.forEach((line) => {
+    let parent = line.parentElement;
+    gsap.set(parent, { overflow: "hidden" });
+  });
+
+  // Animate Heading Lines with mask effect (top to bottom)
   tl.from(
     splitText.lines,
     {
       opacity: 0,
-      x: -100, // Moves in from the left
+      y: -100, // Moves in from the top
       duration: 0.4, // Duration for each line
       ease: "expo.out", // Smooth easing
-      stagger: { each: 0.2, overlap: -0.4 }, // Overlap lines for smoother flow
-      filter: "blur(10px)", // Start with blur
+      stagger: { each: 0.2 }, // Sequential animation
     },
     "<"
-  ); // "<" ensures both animations start at the same time
+  );
 });
