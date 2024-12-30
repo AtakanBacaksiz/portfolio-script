@@ -157,15 +157,15 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.set(parent, { overflow: "hidden" });
   });
 
-  // Animate Heading Lines with mask effect (top to bottom) and filter
+  // Animate Heading Lines with fade-in effect
   tl.from(
     splitText.lines,
     {
-      opacity: 0,
-      y: -100, // Moves in from the top
-      duration: 0.4, // Duration for each line
-      ease: "expo.out", // Smooth easing
-      stagger: { each: 0.2, overlap: -0.4 }, // Overlapping animations
+      opacity: 0, // Fading in
+      y: -30, // Small upward movement for subtle effect
+      duration: 0.5, // Duration for each line
+      ease: "power2.out", // Smooth easing
+      stagger: { each: 0.1, overlap: -0.3 }, // Overlapping animations
       filter: "blur(10px)", // Start with blur
     },
     "<"
