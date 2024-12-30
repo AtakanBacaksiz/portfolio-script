@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       height: "auto",
       opacity: 1,
-      duration: 0.8,
+      duration: 0.6,
       ease: "back.out", // Smooth easing for expansion
     }
   );
