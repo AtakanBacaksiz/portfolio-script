@@ -211,7 +211,7 @@ $(".section_testimonial").each(function () {
     opacity: 0,
     y: "1.5rem",
     duration: 0.8,
-    ease: "power2.out",
+    ease: "expo.out",
   });
 
   // Animate rich text
@@ -221,7 +221,7 @@ $(".section_testimonial").each(function () {
       opacity: 0,
       y: "1rem",
       duration: 0.6,
-      ease: "power2.out",
+      ease: "expo.out",
     },
     "-=0.5"
   );
@@ -232,8 +232,8 @@ $(".section_testimonial").each(function () {
     {
       opacity: 0,
       x: "-1rem",
-      duration: 0.5,
-      ease: "power2.out",
+      duration: 0.4,
+      ease: "expo.out",
     },
     "-=0.4"
   );
@@ -242,21 +242,21 @@ $(".section_testimonial").each(function () {
     section.find(".sublabel-text"),
     {
       opacity: 0,
-      x: "1rem",
-      duration: 0.5,
-      ease: "power2.out",
+      x: "-1rem",
+      duration: 0.4,
+      ease: "expo.out",
     },
     "-=0.4"
   );
 
   // Animate image
   tl.from(
-    section.find(".test-image"),
+    section.find(".test_image-card"),
     {
       opacity: 0,
       scale: 0.8,
       duration: 1,
-      ease: "elastic.out(1, 0.3)",
+      ease: "expo.out",
     },
     "-=0.5"
   );
