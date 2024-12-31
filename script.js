@@ -190,74 +190,60 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-$(".section_testimonial").each(function () {
-  let section = $(this);
+["#nso", "#jc", "#aff"].forEach((parentId) => {
+  let parent = $(parentId);
 
-  // Timeline
+  // Create a GSAP timeline for the parent
   let tl = gsap.timeline({
     scrollTrigger: {
-      trigger: section,
+      trigger: parent,
       start: "top bottom",
       end: "top 70%",
       toggleActions: "play none none reverse",
     },
   });
 
-  // Reveal section elements
-  tl.set(section.find("[data-gsap-hidden]"), { visibility: "visible" });
-
-  // Animate heading
-  tl.from(section.find(".heading-style-h2"), {
+  // Animate text-rich-text
+  tl.from(parent.find(".text-rich-text"), {
     opacity: 0,
     y: "1.5rem",
     duration: 0.8,
     ease: "expo.out",
   });
 
-  // Animate rich text
+  // Animate test_image-card
   tl.from(
-    section.find(".text-rich-text"),
-    {
-      opacity: 0,
-      y: "1rem",
-      duration: 0.6,
-      ease: "expo.out",
-    },
-    "-=0.5"
-  );
-
-  // Animate label and sublabel
-  tl.from(
-    section.find(".label-text"),
-    {
-      opacity: 0,
-      x: "-1rem",
-      duration: 0.4,
-      ease: "expo.out",
-    },
-    "-=0.4"
-  );
-
-  tl.from(
-    section.find(".sublabel-text"),
-    {
-      opacity: 0,
-      x: "-1rem",
-      duration: 0.4,
-      ease: "expo.out",
-    },
-    "-=0.4"
-  );
-
-  // Animate image
-  tl.from(
-    section.find(".test_image-card"),
+    parent.find(".test_image-card"),
     {
       opacity: 0,
       scale: 0.8,
-      duration: 1,
+      duration: 0.7,
       ease: "expo.out",
     },
     "-=0.5"
+  );
+
+  // Animate text-wrapper.horizontal
+  tl.from(
+    parent.find(".text-wrapper.horizontal"),
+    {
+      opacity: 0,
+      x: "-1rem",
+      duration: 0.5,
+      ease: "expo.out",
+    },
+    "-=0.4"
+  );
+
+  // Animate sublabel-text
+  tl.from(
+    parent.find(".sublabel-text"),
+    {
+      opacity: 0,
+      x: "1rem",
+      duration: 0.6,
+      ease: "expo.out",
+    },
+    "-=0.3"
   );
 });
