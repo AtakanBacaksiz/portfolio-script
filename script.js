@@ -216,7 +216,7 @@ $(".testimonial-container").each(function () {
     container,
     {
       opacity: 0,
-      scale: 0.8,
+      x: "-2rem", // Move from left
       duration: 0.7,
       ease: "expo.out",
     },
