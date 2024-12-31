@@ -150,9 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Prevent flashing on page load
+  // Add a data-gsap-hidden attribute to hide the heading initially
   document.querySelectorAll(".heading-style-h1").forEach((el) => {
-    el.style.visibility = "hidden"; // Hide initially
+    el.setAttribute("data-gsap-hidden", "");
   });
 
   // Split the text into lines
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let tl = gsap.timeline({
     onStart: () => {
       // Set visibility to visible once GSAP starts
-      document.querySelectorAll(".heading-style-h1").forEach((el) => {
+      document.querySelectorAll("[data-gsap-hidden]").forEach((el) => {
         el.style.visibility = "visible";
       });
     },
