@@ -190,30 +190,30 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-["#nso", "#jc", "#aff"].forEach((parentId) => {
-  let parent = $(parentId);
+$(".testimonial-container").each(function () {
+  let container = $(this);
 
-  // Create a GSAP timeline for the parent
+  // Create a GSAP timeline for each testimonial container
   let tl = gsap.timeline({
     scrollTrigger: {
-      trigger: parent,
+      trigger: container,
       start: "top bottom",
       end: "top 70%",
       toggleActions: "play none none reverse",
     },
   });
 
-  // Animate text-rich-text
-  tl.from(parent.find(".text-rich-text"), {
+  // Animate heading-style-h2
+  tl.from(container.siblings(".heading-style-h2"), {
     opacity: 0,
     y: "1.5rem",
     duration: 0.8,
     ease: "expo.out",
   });
 
-  // Animate test_image-card
+  // Animate testimonial-container
   tl.from(
-    parent.find(".test_image-card"),
+    container,
     {
       opacity: 0,
       scale: 0.8,
@@ -221,29 +221,5 @@ document.addEventListener("DOMContentLoaded", function () {
       ease: "expo.out",
     },
     "-=0.5"
-  );
-
-  // Animate text-wrapper.horizontal
-  tl.from(
-    parent.find(".text-wrapper.horizontal"),
-    {
-      opacity: 0,
-      x: "-1rem",
-      duration: 0.5,
-      ease: "expo.out",
-    },
-    "-=0.4"
-  );
-
-  // Animate sublabel-text
-  tl.from(
-    parent.find(".sublabel-text"),
-    {
-      opacity: 0,
-      x: "1rem",
-      duration: 0.6,
-      ease: "expo.out",
-    },
-    "-=0.3"
   );
 });
