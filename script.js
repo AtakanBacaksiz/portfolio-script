@@ -147,17 +147,111 @@ document.addEventListener("DOMContentLoaded", function () {
     ease: "expo.out", // Smooth deceleration
     filter: "blur(10px)", // Start with blur
   });
+});
 
-  // Animate Heading as a single block with fade-in effect
-  tl.from(".heading-style-h1", {
-    opacity: 0, // Fading in
-    y: -30, // Slight upward movement
-    duration: 0.8, // Smooth duration
-    ease: "expo.out", // Smooth easing for fade-in
-    filter: "blur(10px)", // Start with blur
-  }).to(".heading-style-h1", {
-    filter: "blur(0px)", // Remove blur after animation
-    duration: 0.2,
-    ease: "expo.out", // Smooth easing for blur removal
+document.addEventListener("DOMContentLoaded", function () {
+  // Prevent flashing on page load
+  document.querySelectorAll(".heading-style-h1").forEach((el) => {
+    el.style.visibility = "hidden"; // Hide initially
   });
+
+  // Split the text into lines
+  let splitText = new SplitType(".heading-style-h1", { types: "lines" });
+
+  // GSAP Timeline for animations
+  let tl = gsap.timeline({
+    onStart: () => {
+      // Set visibility to visible once GSAP starts
+      document.querySelectorAll(".heading-style-h1").forEach((el) => {
+        el.style.visibility = "visible";
+      });
+    },
+  });
+
+  // Apply overflow:hidden to the parent container of each line
+  splitText.lines.forEach((line) => {
+    let parent = line.parentElement;
+    gsap.set(parent, { overflow: "hidden" });
+  });
+
+  // Animate Heading Lines with fade-in and upward motion
+  tl.from(splitText.lines, {
+    opacity: 0, // Fading in
+    y: -30, // Moves in from the top
+    duration: 0.8, // Duration for each line
+    ease: "expo.out", // Smooth easing
+    stagger: { each: 0.2, overlap: -0.3 }, // Overlapping animations
+  });
+});
+
+$(".section_testimonial").each(function () {
+  let section = $(this);
+
+  // Timeline
+  let tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top bottom",
+      end: "top 70%",
+      toggleActions: "play none none reverse",
+    },
+  });
+
+  // Reveal section elements
+  tl.set(section.find("[data-gsap-hidden]"), { visibility: "visible" });
+
+  // Animate heading
+  tl.from(section.find(".heading-style-h2"), {
+    opacity: 0,
+    y: "1.5rem",
+    duration: 0.8,
+    ease: "power2.out",
+  });
+
+  // Animate rich text
+  tl.from(
+    section.find(".text-rich-text"),
+    {
+      opacity: 0,
+      y: "1rem",
+      duration: 0.6,
+      ease: "power2.out",
+    },
+    "-=0.5"
+  );
+
+  // Animate label and sublabel
+  tl.from(
+    section.find(".label-text"),
+    {
+      opacity: 0,
+      x: "-1rem",
+      duration: 0.5,
+      ease: "power2.out",
+    },
+    "-=0.4"
+  );
+
+  tl.from(
+    section.find(".sublabel-text"),
+    {
+      opacity: 0,
+      x: "1rem",
+      duration: 0.5,
+      ease: "power2.out",
+    },
+    "-=0.4"
+  );
+
+  // Animate image
+  tl.from(
+    section.find(".test-image"),
+    {
+      opacity: 0,
+      scale: 0.8,
+      duration: 1,
+      ease: "elastic.out(1, 0.3)",
+    },
+    "-=0.5"
+  );
 });
