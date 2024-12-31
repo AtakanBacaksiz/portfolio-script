@@ -216,8 +216,8 @@ $(".testimonial-container").each(function () {
     container,
     {
       opacity: 0,
-      y: "-2rem", // Move from left
-      duration: 0.7,
+      y: "3rem", // Move from bottom
+      duration: 2,
       ease: "expo.out",
     },
     "-=0.5"
