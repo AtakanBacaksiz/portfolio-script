@@ -190,36 +190,42 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+$(".heading-style-h2").each(function () {
+  let heading = $(this);
+
+  // Split text into words
+  let split = new SplitType(heading, { types: "words" });
+
+  // Animate each word
+  gsap.from(split.words, {
+    scrollTrigger: {
+      trigger: heading,
+      start: "top bottom",
+      end: "top 70%",
+      toggleActions: "play none none reverse",
+    },
+    opacity: 0,
+    y: "1rem", // Move each word upward
+    duration: 0.6,
+    ease: "expo.out",
+    stagger: 0.1, // Stagger animations for a wave effect
+  });
+});
+
 $(".testimonial-container").each(function () {
   let container = $(this);
 
-  // Create a GSAP timeline for each testimonial container
-  let tl = gsap.timeline({
+  // Animate each testimonial-container independently
+  gsap.from(container, {
     scrollTrigger: {
       trigger: container,
       start: "top bottom",
       end: "top 70%",
       toggleActions: "play none none reverse",
     },
-  });
-
-  // Animate heading-style-h2
-  tl.from(container.siblings(".heading-style-h2"), {
     opacity: 0,
-    y: "1.5rem",
-    duration: 0.8,
+    y: "3rem", // Move from bottom
+    duration: 1.2,
     ease: "expo.out",
   });
-
-  // Animate testimonial-container
-  tl.from(
-    container,
-    {
-      opacity: 0,
-      y: "3rem", // Move from bottom
-      duration: 2,
-      ease: "expo.out",
-    },
-    "-=0.5"
-  );
 });
