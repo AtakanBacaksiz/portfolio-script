@@ -150,31 +150,37 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Add a data-gsap-hidden attribute to hide the heading initially
-  document.querySelectorAll(".heading-style-h1").forEach((el) => {
-    el.setAttribute("data-gsap-hidden", "");
-  });
+  // Target elements only inside .section_header
+  document
+    .querySelectorAll(".section_header .heading-style-h1")
+    .forEach((el) => {
+      el.setAttribute("data-gsap-hidden", ""); // Add data attribute to hide initially
+    });
 
-  // Split the text into lines
-  let splitText = new SplitType(".heading-style-h1", { types: "lines" });
+  // Split the text into lines only inside .section_header
+  let splitText = new SplitType(".section_header .heading-style-h1", {
+    types: "lines",
+  });
 
   // GSAP Timeline for animations
   let tl = gsap.timeline({
     onStart: () => {
-      // Set visibility to visible once GSAP starts
-      document.querySelectorAll("[data-gsap-hidden]").forEach((el) => {
-        el.style.visibility = "visible";
-      });
+      // Set visibility to visible for elements inside .section_header
+      document
+        .querySelectorAll(".section_header [data-gsap-hidden]")
+        .forEach((el) => {
+          el.style.visibility = "visible";
+        });
     },
   });
 
-  // Apply overflow:hidden to the parent container of each line
+  // Apply overflow:hidden to the parent container of each line in .section_header
   splitText.lines.forEach((line) => {
     let parent = line.parentElement;
     gsap.set(parent, { overflow: "hidden" });
   });
 
-  // Animate Heading Lines with fade-in and upward motion
+  // Animate Heading Lines within .section_header
   tl.from(splitText.lines, {
     opacity: 0, // Fading in
     y: -30, // Moves in from the top
