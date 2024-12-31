@@ -229,10 +229,3 @@ $(".testimonial-container").each(function () {
     ease: "expo.out",
   });
 });
-
-gsap.registerPlugin(Draggable);
-
-Draggable.create(".about_image-card", {
-  type: "x,y", // Allows dragging in both horizontal and vertical directions
-  bounds: window, // Keeps the draggable element within the viewport
-});
