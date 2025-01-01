@@ -174,20 +174,22 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  // Apply overflow:hidden to the parent container of each word in .section_header
-  splitText.words.forEach((word) => {
-    let parent = word.parentElement;
-    gsap.set(parent, { overflow: "hidden" });
-  });
-
   // Animate Heading Words within .section_header
   tl.from(splitText.words, {
     opacity: 0, // Fading in
-    y: 50, // Moves in from below
-    duration: 1.2, // Slower animation for each word
-    ease: "power2.out", // Smooth easing
-    stagger: { each: 0.3, overlap: -0.4 }, // Slower overlapping animations
-  });
+    y: 30, // Moves in from below
+    filter: "blur(8px)", // Start with blur
+    duration: 0.6, // Faster animation for each word
+    ease: "power1.out", // Smooth easing
+    stagger: { each: 0.15, overlap: -0.2 }, // Faster stagger and overlap
+  }).to(
+    splitText.words,
+    {
+      filter: "blur(0px)", // Remove blur
+      duration: 0.2, // Smoothly transition blur effect
+    },
+    "<"
+  ); // Ensures blur happens during the animation
 });
 
 $(".heading-style-h2").each(function () {
