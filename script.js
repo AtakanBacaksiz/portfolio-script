@@ -274,3 +274,27 @@ console.log(
     ? "MorphSVGPlugin is loaded"
     : "MorphSVGPlugin is NOT loaded"
 );
+
+gsap.registerPlugin(MorphSVGPlugin);
+
+// Get the wrapper and the path to morph
+const knobWrapper = document.querySelector(".knob-wrapper");
+const knobPath = document.querySelector(".knob-path");
+
+// Define the hover animations
+knobWrapper.addEventListener("mouseenter", () => {
+  gsap.to(knobPath, {
+    duration: 0.4,
+    morphSVG:
+      "M21.25 9.75L13.0222 14.6422C12.3922 15.0168 11.6078 15.0168 10.9778 14.6422L2.75 9.75",
+    ease: "expo.out",
+  });
+});
+
+knobWrapper.addEventListener("mouseleave", () => {
+  gsap.to(knobPath, {
+    duration: 0.4,
+    morphSVG: "M3.75 12H20.25",
+    ease: "expo.out",
+  });
+});
