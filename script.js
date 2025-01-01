@@ -204,12 +204,10 @@ $(".heading-style-h2").each(function () {
       toggleActions: "play none none reverse",
     },
     opacity: 0, // Fade in from complete transparency
-    y: "1rem", // Move each word upward
-    scale: 0.8, // Start smaller for a zoom-in effect
-    rotationX: -45, // Add a subtle 3D flip effect
-    duration: 0.8, // Slightly longer duration for smoothness
-    ease: "power3.out", // Softer easing for fluid motion
-    stagger: 0.15, // Increased stagger for a cascading wave effect
+    y: "2rem", // Slide in from below
+    duration: 0.8, // Smooth, slightly longer duration
+    ease: "power3.out", // Softer easing for a fluid motion
+    stagger: 0.1, // Cascading wave effect
   });
 });
 
