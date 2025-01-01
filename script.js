@@ -269,31 +269,3 @@ $(".testimonial-container").each(function () {
     ease: "expo.out",
   });
 });
-console.log(
-  gsap.plugins.MorphSVGPlugin
-    ? "MorphSVGPlugin is loaded"
-    : "MorphSVGPlugin is NOT loaded"
-);
-
-<script>
-  // Select the wrapper and the path element
-  const knobWrapper = document.querySelector('.knob-wrapper');
-  const knobPath = document.querySelector('.knob-path');
-
-  // Add hover animations
-  knobWrapper.addEventListener('mouseenter', () => {
-    gsap.to(knobPath, {
-      duration: 0.4,
-      attr: { d: "M21.25 9.75L13.0222 14.6422C12.3922 15.0168 11.6078 15.0168 10.9778 14.6422L2.75 9.75" }, // Chevron shape
-      ease: "expo.out",
-    });
-  });
-
-  knobWrapper.addEventListener('mouseleave', () => {
-    gsap.to(knobPath, {
-      duration: 0.4,
-      attr: { d: "M3.75 12H20.25" }, // Back to horizontal line
-      ease: "expo.out",
-    });
-  });
-</script>
