@@ -175,11 +175,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Animate Heading Lines within .section_header
-  tl.from(splitText.lines, {
-    opacity: 0, // Fade in from complete transparency
-    y: 60, // Moves in from below
-    duration: 2, // Slow animation duration for all lines
-    ease: "expo.out", // Smooth easing for better fluidity
+  splitText.lines.forEach((line, index) => {
+    tl.from(
+      line,
+      {
+        opacity: 0, // Fade in from complete transparency
+        y: 60, // Moves in from below
+        duration: 1 + index * 0.5, // Each line has a progressively longer duration
+        ease: "expo.out", // Smooth easing for better fluidity
+      },
+      index * 0.1
+    ); // Slight overlap for a cascading effect
   });
 });
 
