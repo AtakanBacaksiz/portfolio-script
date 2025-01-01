@@ -269,3 +269,8 @@ $(".testimonial-container").each(function () {
     ease: "expo.out",
   });
 });
+console.log(
+  gsap.plugins.MorphSVGPlugin
+    ? "MorphSVGPlugin is loaded"
+    : "MorphSVGPlugin is NOT loaded"
+);
