@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let split = new SplitType(text, { types: "lines" });
 
     // Animate each word
-    gsap.from(split.words, {
+    gsap.from(split.lines, {
       scrollTrigger: {
         trigger: text,
         start: "top bottom",
