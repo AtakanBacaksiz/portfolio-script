@@ -157,9 +157,9 @@ document.addEventListener("DOMContentLoaded", function () {
       el.setAttribute("data-gsap-hidden", ""); // Add data attribute to hide initially
     });
 
-  // Split the text into lines only inside .section_header
+  // Split the text into words only inside .section_header
   let splitText = new SplitType(".section_header .heading-style-h1", {
-    types: "lines",
+    types: "words",
   });
 
   // GSAP Timeline for animations
@@ -174,19 +174,19 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  // Apply overflow:hidden to the parent container of each line in .section_header
-  splitText.lines.forEach((line) => {
-    let parent = line.parentElement;
+  // Apply overflow:hidden to the parent container of each word in .section_header
+  splitText.words.forEach((word) => {
+    let parent = word.parentElement;
     gsap.set(parent, { overflow: "hidden" });
   });
 
-  // Animate Heading Lines within .section_header
-  tl.from(splitText.lines, {
+  // Animate Heading Words within .section_header
+  tl.from(splitText.words, {
     opacity: 0, // Fading in
-    y: -30, // Moves in from the top
-    duration: 0.8, // Duration for each line
-    ease: "expo.out", // Smooth easing
-    stagger: { each: 0.2, overlap: -0.3 }, // Overlapping animations
+    y: 50, // Moves in from below
+    duration: 1.2, // Slower animation for each word
+    ease: "power2.out", // Smooth easing
+    stagger: { each: 0.3, overlap: -0.4 }, // Slower overlapping animations
   });
 });
 
