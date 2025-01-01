@@ -189,25 +189,70 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-$(".heading-style-h2").each(function () {
-  let heading = $(this);
+$$(document).ready(function () {
+  // Animate .heading-style-h2
+  $(".heading-style-h2").each(function () {
+    let heading = $(this);
 
-  // Split text into words
-  let split = new SplitType(heading, { types: "words" });
+    // Split text into words
+    let split = new SplitType(heading, { types: "words" });
 
-  // Animate each word
-  gsap.from(split.words, {
-    scrollTrigger: {
-      trigger: heading,
-      start: "top bottom",
-      end: "top 70%",
-      toggleActions: "play none none reverse",
-    },
-    opacity: 0, // Fade in from complete transparency
-    y: "2rem", // Slide in from below
-    duration: 0.8, // Smooth, slightly longer duration
-    ease: "power3.out", // Softer easing for a fluid motion
-    stagger: 0.1, // Cascading wave effect
+    // Animate each word
+    gsap.from(split.words, {
+      scrollTrigger: {
+        trigger: heading,
+        start: "top bottom",
+        end: "top 70%",
+        toggleActions: "play none none reverse",
+      },
+      opacity: 0, // Fade in from complete transparency
+      y: "2rem", // Slide in from below
+      duration: 0.8, // Smooth duration
+      ease: "expo.out", // Smooth easing for all animations
+      stagger: 0.1, // Cascading wave effect
+    });
+  });
+
+  // Animate .text-size-regular
+  $(".text-size-regular").each(function () {
+    let text = $(this);
+
+    // Split text into words
+    let split = new SplitType(text, { types: "words" });
+
+    // Animate each word
+    gsap.from(split.words, {
+      scrollTrigger: {
+        trigger: text,
+        start: "top bottom",
+        end: "top 70%",
+        toggleActions: "play none none reverse",
+      },
+      opacity: 0, // Fade in
+      y: "2rem", // Slide in from below
+      duration: 0.8, // Smooth duration
+      ease: "expo.out", // Smooth easing
+      stagger: 0.1, // Cascading wave effect
+    });
+  });
+
+  // Animate .button-group
+  $(".button-group").each(function () {
+    let group = $(this);
+
+    // Animate the entire button group as one unit
+    gsap.from(group, {
+      scrollTrigger: {
+        trigger: group,
+        start: "top bottom",
+        end: "top 70%",
+        toggleActions: "play none none reverse",
+      },
+      opacity: 0, // Fade in
+      y: "2rem", // Slide in from below
+      duration: 1, // Smooth, slightly slower duration for the group
+      ease: "expo.out", // Smooth easing for group animation
+    });
   });
 });
 
