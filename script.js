@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Animate .text-size-regular
   document.querySelectorAll("#paragraph").forEach((text) => {
     // Split text into words
-    let split = new SplitType(text, { types: "words" });
+    let split = new SplitType(text, { types: "lines" });
 
     // Animate each word
     gsap.from(split.words, {
