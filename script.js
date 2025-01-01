@@ -189,11 +189,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-$$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
   // Animate .heading-style-h2
-  $(".heading-style-h2").each(function () {
-    let heading = $(this);
-
+  document.querySelectorAll(".heading-style-h2").forEach((heading) => {
     // Split text into words
     let split = new SplitType(heading, { types: "words" });
 
@@ -205,18 +203,16 @@ $$(document).ready(function () {
         end: "top 70%",
         toggleActions: "play none none reverse",
       },
-      opacity: 0, // Fade in from complete transparency
+      opacity: 0, // Fade in
       y: "2rem", // Slide in from below
       duration: 0.8, // Smooth duration
-      ease: "expo.out", // Smooth easing for all animations
-      stagger: 0.1, // Cascading wave effect
+      ease: "expo.out", // Smooth easing
+      stagger: 0.1, // Cascading effect
     });
   });
 
   // Animate .text-size-regular
-  $(".text-size-regular").each(function () {
-    let text = $(this);
-
+  document.querySelectorAll(".text-size-regular").forEach((text) => {
     // Split text into words
     let split = new SplitType(text, { types: "words" });
 
@@ -232,15 +228,13 @@ $$(document).ready(function () {
       y: "2rem", // Slide in from below
       duration: 0.8, // Smooth duration
       ease: "expo.out", // Smooth easing
-      stagger: 0.1, // Cascading wave effect
+      stagger: 0.1, // Cascading effect
     });
   });
 
   // Animate .button-group
-  $(".button-group").each(function () {
-    let group = $(this);
-
-    // Animate the entire button group as one unit
+  document.querySelectorAll(".button-group").forEach((group) => {
+    // Animate the entire button group
     gsap.from(group, {
       scrollTrigger: {
         trigger: group,
@@ -250,7 +244,7 @@ $$(document).ready(function () {
       },
       opacity: 0, // Fade in
       y: "2rem", // Slide in from below
-      duration: 1, // Smooth, slightly slower duration for the group
+      duration: 1, // Smooth, slightly slower duration
       ease: "expo.out", // Smooth easing for group animation
     });
   });
