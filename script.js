@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: 0.8, // Smooth duration
       ease: "expo.out", // Smooth easing
       stagger: 0.1, // Cascading effect
+      delay: 0.5, // Added delay before the animation starts
     });
   });
 
@@ -246,6 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
       y: "2rem", // Slide in from below
       duration: 1, // Smooth, slightly slower duration
       ease: "expo.out", // Smooth easing for group animation
+      delay: 1, // Added delay before the animation starts
     });
   });
 });
