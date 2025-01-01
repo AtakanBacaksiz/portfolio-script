@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Animate .button-group
-  document.querySelectorAll(".button-group").forEach((group) => {
+  document.querySelectorAll("#case").forEach((group) => {
     // Animate the entire button group
     gsap.from(group, {
       scrollTrigger: {
