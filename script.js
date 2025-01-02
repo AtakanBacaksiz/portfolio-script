@@ -333,10 +333,9 @@ $(document).ready(function () {
   )
     .css({
       position: "absolute",
-      top: "20px",
-      right: "20px",
+      top: "2rem",
+      right: "2rem",
       cursor: "pointer",
-      color: "#fff",
       zIndex: 9999,
     })
     .appendTo(overlay);
@@ -379,99 +378,9 @@ $(document).ready(function () {
         overlay.fadeOut(300);
 
         const state = Flip.getState($card);
-        $card.css({ position: "", zIndex: "" });
+
         originalParent.append($card); // Move back to original parent
-
-        Flip.from(state, {
-          duration: 0.5,
-          ease: "power2.in",
-        });
-      }
-    });
-  });
-
-  // Close overlay when clicked (outside the image)
-  overlay.on("click", function (e) {
-    if (e.target === overlay[0]) {
-      $(".bento-card")
-        .filter(function () {
-          return $(this).data("scaled");
-        })
-        .trigger("click");
-    }
-  });
-});
-$(document).ready(function () {
-  // Create the overlay element with the SVG close button
-  const overlay = $("<div></div>")
-    .css({
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.25)",
-      display: "none",
-      zIndex: 9998,
-    })
-    .appendTo("body");
-
-  // Add the close icon to the overlay
-  const closeIcon = $(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
-      <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-    </svg>`
-  )
-    .css({
-      position: "absolute",
-      top: "20px",
-      right: "20px",
-      cursor: "pointer",
-      color: "#fff",
-      zIndex: 9999,
-    })
-    .appendTo(overlay);
-
-  // Append close icon to overlay
-  overlay.append(closeIcon);
-
-  $(".bento-card").each(function () {
-    const $card = $(this);
-    const originalParent = $card.parent(); // Store the original parent container
-
-    $card.on("click", function () {
-      if (!$card.data("scaled")) {
-        // Scale up
-        $card.data("scaled", true);
-        overlay.fadeIn(300);
-
-        const state = Flip.getState($card);
-        $("body").append($card); // Temporarily append to body for scaling
-        gsap.set($card, {
-          width: "80vw",
-          height: "80vh",
-          top: "10vh",
-          left: "10vw",
-          position: "fixed",
-          zIndex: 9999,
-        });
-
-        Flip.from(state, {
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      }
-    });
-
-    // Close button functionality
-    closeIcon.on("click", function () {
-      if ($card.data("scaled")) {
-        $card.data("scaled", false);
-        overlay.fadeOut(300);
-
-        const state = Flip.getState($card);
-        $card.css({ position: "", zIndex: "" });
-        originalParent.append($card); // Move back to original parent
+        gsap.set($card, { clearProps: "all" }); // Remove inline styles to restore original state
 
         Flip.from(state, {
           duration: 0.5,
