@@ -352,12 +352,22 @@ $(document).ready(function () {
     const $card = $(this);
     const originalParent = $card.parent(); // Save the original parent
     const originalIndex = $card.index(); // Save the card's index in the grid
+    let placeholder; // Placeholder for maintaining grid position
 
     // Scale up on click
     $card.on("click", function () {
       if (!$card.data("scaled")) {
         $card.data("scaled", true);
         overlay.fadeIn(300);
+
+        // Create a placeholder to maintain grid position
+        placeholder = $("<div class='placeholder'></div>")
+          .css({
+            width: $card.outerWidth(),
+            height: $card.outerHeight(),
+            visibility: "hidden",
+          })
+          .insertBefore($card);
 
         const state = Flip.getState($card); // Capture the card's current state
         $("body").append($card); // Move to the body for fixed positioning
@@ -389,10 +399,9 @@ $(document).ready(function () {
         const state = Flip.getState($card); // Capture the card's current state
 
         // Return the card to its original parent and position
-        if (originalParent.children().eq(originalIndex).length) {
-          originalParent.children().eq(originalIndex).before($card);
-        } else {
-          originalParent.append($card);
+        if (placeholder) {
+          placeholder.replaceWith($card);
+          placeholder = null; // Remove the placeholder
         }
 
         // Reset styles to integrate back into the grid
