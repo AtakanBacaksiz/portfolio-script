@@ -309,6 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
 $(document).ready(function () {
   // Register the Flip plugin
   gsap.registerPlugin(Flip);
@@ -381,9 +382,9 @@ $(document).ready(function () {
       }
     });
 
+    // Close button functionality
     closeButton.on("click", function () {
       if ($card.data("scaled")) {
-        // Scale down the card
         $card.data("scaled", false);
         overlay.fadeOut(300);
 
