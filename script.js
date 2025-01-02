@@ -311,115 +311,78 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
-  // Register the Flip plugin
-  gsap.registerPlugin(Flip);
-
-  // Create the overlay element
-  const overlay = $("<div></div>")
+  let bentoWrapper = $(".showcase-item_bento-wrapper");
+  let cards = bentoWrapper.children();
+  let overlay = $("<div></div>")
     .css({
       position: "fixed",
       top: 0,
       left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.25)",
-      display: "none",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#0a0a0a",
+      opacity: 0,
+      pointerEvents: "none",
       zIndex: 9998,
     })
     .appendTo("body");
 
-  // Add the close button wrapper with the close icon
-  const closeButton = $(
-    `<div class="button close">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
-        <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-      </svg>
-    </div>`
-  )
-    .css({
-      position: "absolute",
-      top: "20px",
-      right: "20px",
-      cursor: "pointer",
-      zIndex: 9999,
-    })
-    .appendTo(overlay);
+  cards.each(function () {
+    $(this).on("click", function () {
+      // Capture Flip state
+      let state = Flip.getState(cards);
 
-  overlay.append(closeButton);
+      // Add overlay
+      overlay.css({ pointerEvents: "auto" }).animate({ opacity: 0.25 }, 200);
 
-  // IDs of the cards
-  const ids = ["#card-1", "#card-2", "#card-3"];
+      // Add active class and button
+      let clickedCard = $(this).addClass("active");
+      let closeButton = $(
+        `<div class="button is-icon large" style="position: absolute; top: 1rem; right: 1rem; z-index: 10000; cursor: pointer;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </div>`
+      ).appendTo(clickedCard);
 
-  ids.forEach(function (id) {
-    const $card = $(id);
-
-    if (!$card.length) {
-      console.error(`Target not found: ${id}`);
-      return;
-    }
-
-    const originalParent = $card.parent();
-    const originalIndex = $card.index();
-
-    // Scale up
-    $card.on("click", function () {
-      if (!$card.data("scaled")) {
-        $card.data("scaled", true);
-        overlay.fadeIn(300);
-
-        const state = Flip.getState($card);
-        $("body").append($card);
-
-        gsap.set($card, {
-          width: "80vw",
-          height: "80vh",
-          position: "fixed",
-          top: "10vh",
-          left: "10vw",
-          zIndex: 9999,
-        });
-
-        Flip.from(state, {
-          duration: 0.4,
-          ease: "expo.out",
-        });
-      }
-    });
-
-    // Scale down
-    closeButton.on("click", function () {
-      if ($card.data("scaled")) {
-        $card.data("scaled", false);
-        overlay.fadeOut(300);
-
-        const state = Flip.getState($card);
-
-        if (originalParent.children().eq(originalIndex).length) {
-          originalParent.children().eq(originalIndex).before($card);
-        } else {
-          originalParent.append($card);
-        }
-
-        $card.css({ position: "", zIndex: "" });
-        gsap.set($card, { clearProps: "all" });
-
-        Flip.from(state, {
-          duration: 0.4,
-          ease: "expo.out",
-        });
-      }
-    });
-  });
-
-  // Close overlay when clicking outside
-  overlay.on("click", function (e) {
-    if (e.target === overlay[0]) {
-      ids.forEach(function (id) {
-        const $card = $(id);
-        if ($card.data("scaled")) {
-          $card.trigger("click");
-        }
+      // Set fixed position and scale
+      clickedCard.css({
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: 9999,
+        width: "50vw",
+        height: "50vh",
       });
-    }
+
+      // Run Flip animation
+      Flip.from(state, {
+        duration: 0.4,
+        ease: "expo.out",
+      });
+
+      // Close functionality
+      closeButton.on("click", function (e) {
+        e.stopPropagation();
+        clickedCard
+          .removeClass("active")
+          .css({
+            position: "",
+            zIndex: "",
+            width: "",
+            height: "",
+            transform: "",
+          });
+        closeButton.remove();
+        overlay.animate({ opacity: 0 }, 200, function () {
+          overlay.css({ pointerEvents: "none" });
+        });
+        Flip.from(state, {
+          duration: 0.4,
+          ease: "expo.out",
+        });
+      });
+    });
   });
 });
