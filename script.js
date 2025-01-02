@@ -157,6 +157,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Hide initially
+  document.querySelectorAll("#head-about").forEach((el) => {
+    el.setAttribute("data-gsap-hidden", "");
+  });
+
+  // Initialize SplitType
+  let splitText = new SplitType("#head-about", {
+    types: "lines",
+  });
+
+  // GSAP Timeline
+  let tl = gsap.timeline({
+    onStart: () => {
+      document
+        .querySelectorAll("#head-about [data-gsap-hidden]")
+        .forEach((el) => {
+          el.style.visibility = "visible";
+        });
+    },
+  });
+
+  // Animate lines
+  splitText.lines.forEach((line, index) => {
+    tl.from(
+      line,
+      {
+        opacity: 0,
+        y: 60,
+        duration: 1 + index * 0.5,
+        ease: "expo.out",
+      },
+      index * 0.1
+    );
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Hide initially
   document
     .querySelectorAll(".section_header .heading-style-h1")
     .forEach((el) => {
@@ -166,17 +203,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize SplitType
   let splitText = new SplitType(".section_header .heading-style-h1", {
     types: "lines",
-  });
-
-  // GSAP Timeline
-  let tl = gsap.timeline({
-    onStart: () => {
-      document
-        .querySelectorAll(".section_header [data-gsap-hidden]")
-        .forEach((el) => {
-          el.style.visibility = "visible";
-        });
-    },
   });
 
   // Animate lines
