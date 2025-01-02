@@ -136,17 +136,23 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // GSAP Timeline for animations
-  let tl = gsap.timeline();
+  // Check if animation has already run
+  if (!localStorage.getItem("navbarAnimationPlayed")) {
+    // Mark animation as played
+    localStorage.setItem("navbarAnimationPlayed", "true");
 
-  // Animate Navbar Container from bottom with blur
-  tl.from(".navbar_container", {
-    opacity: 0,
-    y: 200, // Navbar comes from farther away
-    duration: 1, // Smooth longer duration
-    ease: "expo.out", // Smooth deceleration
-    filter: "blur(10px)", // Start with blur
-  });
+    // GSAP Timeline for animations
+    let tl = gsap.timeline();
+
+    // Animate Navbar Container from bottom with blur
+    tl.from(".navbar_container", {
+      opacity: 0,
+      y: 200, // Navbar comes from farther away
+      duration: 1, // Smooth longer duration
+      ease: "expo.out", // Smooth deceleration
+      filter: "blur(10px)", // Start with blur
+    });
+  }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
