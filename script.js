@@ -309,3 +309,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+$(".bento-card").on("click", function () {
+  gsap.to($(this), {
+    scale: 2, // Adjust the scale as needed
+    zIndex: 9999, // Bring it to the top
+    duration: 0.5, // Smooth animation duration
+    ease: "expo.out",
+  });
+});
