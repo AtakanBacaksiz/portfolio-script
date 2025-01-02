@@ -310,14 +310,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-console.log("Card 1:", $("#card-1"));
-console.log("Card 2:", $("#card-2"));
-console.log("Card 3:", $("#card-3"));
 $(document).ready(function () {
   // Register the Flip plugin
   gsap.registerPlugin(Flip);
 
-  // Overlay and close button
+  // Create the overlay element
   const overlay = $("<div></div>")
     .css({
       position: "fixed",
@@ -331,6 +328,7 @@ $(document).ready(function () {
     })
     .appendTo("body");
 
+  // Add the close button wrapper with the close icon
   const closeButton = $(
     `<div class="button close">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
@@ -349,30 +347,22 @@ $(document).ready(function () {
 
   overlay.append(closeButton);
 
-  // IDs of the cards
-  const ids = ["#card-1", "#card-2", "#card-3"];
+  // Handle bento-card elements
+  $(".bento-card").each(function () {
+    const $card = $(this);
+    const originalParent = $card.parent(); // Save the original parent
+    const originalIndex = $card.index(); // Save the card's index in the grid
 
-  ids.forEach(function (id) {
-    const $card = $(id);
-
-    // Debug: Check if the card exists
-    if (!$card.length) {
-      console.error(`Target not found: ${id}`);
-      return;
-    }
-
-    const originalParent = $card.parent();
-    const originalIndex = $card.index();
-
-    // Click event to scale up
+    // Scale up on click
     $card.on("click", function () {
       if (!$card.data("scaled")) {
         $card.data("scaled", true);
         overlay.fadeIn(300);
 
-        const state = Flip.getState($card);
-        $("body").append($card);
+        const state = Flip.getState($card); // Capture the card's current state
+        $("body").append($card); // Move to the body for fixed positioning
 
+        // Set the scaled-up styles
         gsap.set($card, {
           width: "80vw",
           height: "80vh",
@@ -389,20 +379,22 @@ $(document).ready(function () {
       }
     });
 
-    // Click event to scale down
+    // Scale down on close button click
     closeButton.on("click", function () {
       if ($card.data("scaled")) {
         $card.data("scaled", false);
         overlay.fadeOut(300);
 
-        const state = Flip.getState($card);
+        const state = Flip.getState($card); // Capture the card's current state
 
+        // Return the card to its original parent and position
         if (originalParent.children().eq(originalIndex).length) {
           originalParent.children().eq(originalIndex).before($card);
         } else {
           originalParent.append($card);
         }
 
+        // Reset styles to integrate back into the grid
         $card.css({ position: "", zIndex: "" });
         gsap.set($card, { clearProps: "all" });
 
@@ -414,15 +406,14 @@ $(document).ready(function () {
     });
   });
 
-  // Close overlay when clicking outside
+  // Close the overlay when clicking outside
   overlay.on("click", function (e) {
     if (e.target === overlay[0]) {
-      ids.forEach(function (id) {
-        const $card = $(id);
-        if ($card.data("scaled")) {
-          $card.trigger("click");
-        }
-      });
+      $(".bento-card")
+        .filter(function () {
+          return $(this).data("scaled");
+        })
+        .trigger("click");
     }
   });
 });
