@@ -309,8 +309,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
 $(document).ready(function () {
+  // Register the Flip plugin
+  gsap.registerPlugin(Flip);
+
   // Create the overlay element
   const overlay = $("<div></div>")
     .css({
@@ -342,23 +344,26 @@ $(document).ready(function () {
     })
     .appendTo(overlay);
 
-  // Append close button to overlay
+  // Append the close button to the overlay
   overlay.append(closeButton);
 
-  // Array of IDs to apply the animation
-  ["#1", "#2", "#3"].forEach(function (id) {
+  // List of IDs to animate
+  const ids = ["#1", "#2", "#3"];
+
+  ids.forEach(function (id) {
     const $card = $(id);
     const originalParent = $card.parent(); // Store the original parent container
-    const originalIndex = $card.index(); // Save the original index in the grid
+    const originalIndex = $card.index(); // Save the card's index within the parent
 
     $card.on("click", function () {
       if (!$card.data("scaled")) {
-        // Scale up
+        // Scale up the card
         $card.data("scaled", true);
         overlay.fadeIn(300);
 
-        const state = Flip.getState($card); // Capture current state
-        $("body").append($card); // Temporarily append to body for scaling
+        // Capture the card's current state
+        const state = Flip.getState($card);
+        $("body").append($card); // Move to body for scaling
         gsap.set($card, {
           width: "80vw",
           height: "80vh",
@@ -368,6 +373,7 @@ $(document).ready(function () {
           zIndex: 9999,
         });
 
+        // Animate the transition
         Flip.from(state, {
           duration: 0.4,
           ease: "expo.out",
@@ -375,24 +381,27 @@ $(document).ready(function () {
       }
     });
 
-    // Close button functionality
     closeButton.on("click", function () {
       if ($card.data("scaled")) {
+        // Scale down the card
         $card.data("scaled", false);
         overlay.fadeOut(300);
 
-        const state = Flip.getState($card); // Capture current state
+        // Capture the card's current state
+        const state = Flip.getState($card);
 
-        // Reinsert the card into the original position
+        // Return the card to its original position
         if (originalParent.children().eq(originalIndex).length) {
           originalParent.children().eq(originalIndex).before($card);
         } else {
           originalParent.append($card);
         }
 
-        $card.css({ position: "", zIndex: "" }); // Clear fixed styles
-        gsap.set($card, { clearProps: "all" }); // Remove inline styles
+        // Reset styles
+        $card.css({ position: "", zIndex: "" });
+        gsap.set($card, { clearProps: "all" });
 
+        // Animate the transition
         Flip.from(state, {
           duration: 0.4,
           ease: "expo.out",
@@ -401,10 +410,10 @@ $(document).ready(function () {
     });
   });
 
-  // Close overlay when clicked (outside the image)
+  // Close the overlay on click (outside of the card)
   overlay.on("click", function (e) {
     if (e.target === overlay[0]) {
-      ["#1", "#2", "#3"].forEach(function (id) {
+      ids.forEach(function (id) {
         const $card = $(id);
         if ($card.data("scaled")) {
           $card.trigger("click");
