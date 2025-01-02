@@ -313,6 +313,8 @@ document.addEventListener("DOMContentLoaded", function () {
 $(document).ready(function () {
   let bentoWrapper = $(".showcase-item_bento-wrapper");
   let cards = bentoWrapper.children();
+
+  // Overlay for background
   let overlay = $("<div></div>")
     .css({
       position: "fixed",
@@ -329,14 +331,13 @@ $(document).ready(function () {
 
   cards.each(function () {
     $(this).on("click", function () {
-      // Capture Flip state
-      let state = Flip.getState(cards);
+      let clickedCard = $(this);
+      let state = Flip.getState(cards); // Capture initial Flip state
 
-      // Add overlay
+      // Activate overlay
       overlay.css({ pointerEvents: "auto" }).animate({ opacity: 0.25 }, 200);
 
-      // Add active class and button
-      let clickedCard = $(this).addClass("active");
+      // Add close button
       let closeButton = $(
         `<div class="button is-icon large" style="position: absolute; top: 1rem; right: 1rem; z-index: 10000; cursor: pointer;">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -345,8 +346,8 @@ $(document).ready(function () {
         </div>`
       ).appendTo(clickedCard);
 
-      // Set fixed position and scale
-      clickedCard.css({
+      // Apply transformations for expanded view
+      clickedCard.addClass("active").css({
         position: "fixed",
         top: "50%",
         left: "50%",
@@ -356,7 +357,7 @@ $(document).ready(function () {
         height: "50vh",
       });
 
-      // Run Flip animation
+      // Animate Flip
       Flip.from(state, {
         duration: 0.4,
         ease: "expo.out",
@@ -364,23 +365,29 @@ $(document).ready(function () {
 
       // Close functionality
       closeButton.on("click", function (e) {
-        e.stopPropagation();
-        clickedCard
-          .removeClass("active")
-          .css({
-            position: "",
-            zIndex: "",
-            width: "",
-            height: "",
-            transform: "",
-          });
-        closeButton.remove();
-        overlay.animate({ opacity: 0 }, 200, function () {
-          overlay.css({ pointerEvents: "none" });
+        e.stopPropagation(); // Prevent triggering parent click
+        let closeState = Flip.getState(cards); // Capture current Flip state
+
+        // Reset styles and remove active class
+        clickedCard.removeClass("active").css({
+          position: "",
+          zIndex: "",
+          width: "",
+          height: "",
+          transform: "",
         });
-        Flip.from(state, {
+
+        closeButton.remove(); // Remove close button
+
+        // Animate back to original position
+        Flip.from(closeState, {
           duration: 0.4,
           ease: "expo.out",
+        });
+
+        // Fade out overlay
+        overlay.animate({ opacity: 0 }, 200, function () {
+          overlay.css({ pointerEvents: "none" });
         });
       });
     });
