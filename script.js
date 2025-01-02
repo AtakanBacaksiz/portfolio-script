@@ -314,6 +314,21 @@ $(document).ready(function () {
   // Register the Flip plugin
   gsap.registerPlugin(Flip);
 
+  // Create the overlay with a blur effect
+  const overlay = $("<div class='blur-overlay'></div>")
+    .css({
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.25)",
+      backdropFilter: "blur(4px)", // Apply blur effect
+      display: "none",
+      zIndex: 9997, // Positioned behind the card and close button
+    })
+    .appendTo("body");
+
   $(".bento-card").each(function () {
     const $card = $(this);
     const originalParent = $card.parent(); // Save the original parent
@@ -322,9 +337,12 @@ $(document).ready(function () {
     let closeButton; // Close button reference
 
     // Scale up on click
-    $card.on("click", function () {
+    $card.on("click", function (e) {
       if (!$card.data("scaled")) {
         $card.data("scaled", true);
+
+        // Show the overlay
+        overlay.fadeIn(300);
 
         // Create the close button dynamically if it doesn't exist
         if (!closeButton) {
@@ -344,7 +362,8 @@ $(document).ready(function () {
               display: "none", // Initially hidden
             })
             .appendTo($card)
-            .on("click", function () {
+            .on("click", function (e) {
+              e.stopPropagation(); // Prevent re-triggering the card's click event
               closeCard();
             });
         }
@@ -386,12 +405,15 @@ $(document).ready(function () {
       if ($card.data("scaled")) {
         $card.data("scaled", false);
 
-        const state = Flip.getState($card); // Capture the card's current state
+        // Hide the overlay
+        overlay.fadeOut(300);
 
         // Hide the close button
         if (closeButton) {
           closeButton.hide();
         }
+
+        const state = Flip.getState($card); // Capture the card's current state
 
         // Return the card to its original parent and position
         if (placeholder) {
@@ -417,5 +439,8 @@ $(document).ready(function () {
         closeCard();
       }
     });
+
+    // Close when clicking on the overlay
+    overlay.on("click", closeCard);
   });
 });
