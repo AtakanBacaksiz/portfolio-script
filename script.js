@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
-  // Create the overlay element
+  // Create the overlay element with the SVG close button
   const overlay = $("<div></div>")
     .css({
       position: "fixed",
@@ -322,8 +322,26 @@ $(document).ready(function () {
       backgroundColor: "rgba(0, 0, 0, 0.25)",
       display: "none",
       zIndex: 9998,
+      justifyContent: "center",
+      alignItems: "center",
     })
     .appendTo("body");
+
+  // Add the close icon to the overlay
+  const closeIcon = $(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon">
+      <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>`
+  )
+    .css({
+      position: "absolute",
+      top: "20px",
+      right: "20px",
+      cursor: "pointer",
+      zIndex: 9999,
+      color: "#fff",
+    })
+    .appendTo(overlay);
 
   $(".bento-card").on("click", function () {
     const $this = $(this);
@@ -336,14 +354,17 @@ $(document).ready(function () {
       $this.data("scaled", true);
       overlay.fadeIn(300);
       gsap.to($this, {
-        width: "80vw", // Set uniform size
-        height: "80vh",
+        width: "80vw", // Uniform size
+        height: "calc(80vw * 0.75)", // Maintain aspect ratio
         position: "fixed",
         top: "10vh", // Center vertically
         left: "10vw", // Center horizontally
         zIndex: 9999,
         duration: 0.5,
         ease: "power2.out",
+        onComplete: () => {
+          $this.css({ objectFit: "cover" }); // Smooth scaling
+        },
       });
     } else {
       // Scale down
@@ -358,16 +379,19 @@ $(document).ready(function () {
         zIndex: "",
         duration: 0.5,
         ease: "power2.in",
+        onComplete: () => {
+          $this.css({ objectFit: "" }); // Reset scaling
+        },
       });
     }
   });
 
-  // Close on overlay click
-  overlay.on("click", function () {
-    $(".bento-card")
-      .filter(function () {
+  // Close on overlay or close icon click
+  overlay.on("click", function (e) {
+    if ($(e.target).is(".embed-icon") || e.target === overlay[0]) {
+      $(".bento-card").filter(function () {
         return $(this).data("scaled");
-      })
-      .trigger("click");
+      }).trigger("click");
+    }
   });
-});
+
