@@ -312,7 +312,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Register the Flip plugin
-  gsap.registerPlugin(Flip);
 
   // Create the overlay element
   const overlay = $("<div></div>")
