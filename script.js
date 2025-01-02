@@ -325,27 +325,29 @@ $(document).ready(function () {
     })
     .appendTo("body");
 
-  // Add the close icon to the overlay
-  const closeIcon = $(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
-      <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-    </svg>`
+  // Add the close button wrapper with the close icon
+  const closeButton = $(
+    `<div class="button close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
+        <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+    </div>`
   )
     .css({
       position: "absolute",
       top: "20px",
       right: "20px",
       cursor: "pointer",
-      color: "#fff",
       zIndex: 9999,
     })
     .appendTo(overlay);
 
-  // Append close icon to overlay
-  overlay.append(closeIcon);
+  // Append close button to overlay
+  overlay.append(closeButton);
 
-  $(".bento-card").each(function () {
-    const $card = $(this);
+  // Array of IDs to apply the animation
+  ["#1", "#2", "#3"].forEach(function (id) {
+    const $card = $(id);
     const originalParent = $card.parent(); // Store the original parent container
     const originalIndex = $card.index(); // Save the original index in the grid
 
@@ -367,14 +369,14 @@ $(document).ready(function () {
         });
 
         Flip.from(state, {
-          duration: 0.5,
-          ease: "power2.out",
+          duration: 0.4,
+          ease: "expo.out",
         });
       }
     });
 
     // Close button functionality
-    closeIcon.on("click", function () {
+    closeButton.on("click", function () {
       if ($card.data("scaled")) {
         $card.data("scaled", false);
         overlay.fadeOut(300);
@@ -392,8 +394,8 @@ $(document).ready(function () {
         gsap.set($card, { clearProps: "all" }); // Remove other inline styles
 
         Flip.from(state, {
-          duration: 0.5,
-          ease: "power2.in",
+          duration: 0.4,
+          ease: "expo.out",
         });
       }
     });
@@ -402,11 +404,12 @@ $(document).ready(function () {
   // Close overlay when clicked (outside the image)
   overlay.on("click", function (e) {
     if (e.target === overlay[0]) {
-      $(".bento-card")
-        .filter(function () {
-          return $(this).data("scaled");
-        })
-        .trigger("click");
+      ["#1", "#2", "#3"].forEach(function (id) {
+        const $card = $(id);
+        if ($card.data("scaled")) {
+          $card.trigger("click");
+        }
+      });
     }
   });
 });
