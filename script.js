@@ -338,7 +338,7 @@ $(document).ready(function () {
 
   overlay.append(closeButton);
 
-  const ids = ["#1", "#2", "#3"]; // Update IDs if needed
+  const ids = ["#card-1", "#card-2", "#card-3"]; // Update IDs if needed
 
   ids.forEach(function (id) {
     const $card = $(id);
