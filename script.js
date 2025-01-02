@@ -347,10 +347,7 @@ $(document).ready(function () {
   $(".bento-card").each(function () {
     const $card = $(this);
     const originalParent = $card.parent(); // Store the original parent container
-    const originalStyles = {
-      gridColumn: $card.css("grid-column"),
-      gridRow: $card.css("grid-row"),
-    }; // Save grid placement styles
+    const originalIndex = $card.index(); // Save the original index in the grid
 
     $card.on("click", function () {
       if (!$card.data("scaled")) {
@@ -384,8 +381,14 @@ $(document).ready(function () {
 
         const state = Flip.getState($card);
 
-        originalParent.append($card); // Move back to original parent
-        $card.css({ position: "", zIndex: "", ...originalStyles }); // Restore grid placement styles
+        // Reinsert the card into the original position
+        if (originalParent.children().eq(originalIndex).length) {
+          originalParent.children().eq(originalIndex).before($card);
+        } else {
+          originalParent.append($card);
+        }
+
+        $card.css({ position: "", zIndex: "" }); // Clear fixed styles
         gsap.set($card, { clearProps: "all" }); // Remove other inline styles
 
         Flip.from(state, {
