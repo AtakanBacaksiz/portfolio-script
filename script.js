@@ -389,7 +389,8 @@ $(document).ready(function () {
               right: "0.75rem",
               cursor: "pointer",
               zIndex: 10000,
-              display: "none", // Initially hidden
+              display: "none",
+              padding: "var(--size--6)",
             })
             .appendTo($card)
             .on("click", function (e) {
