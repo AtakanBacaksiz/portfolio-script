@@ -323,15 +323,15 @@ $(document).ready(function () {
       width: "100vw",
       height: "100vh",
       backgroundColor: "rgba(0, 0, 0, 0.25)",
-      backdropFilter: "blur(4px)",
+      backdropFilter: "blur(4px)", // Apply blur effect
       display: "none",
-      zIndex: 9997,
+      zIndex: 9997, // Positioned behind the card and close button
     })
     .appendTo("body");
 
-  let currentCardIndex = -1;
+  let currentCardIndex = -1; // Tracks the currently scaled-up card
 
-  // Create navigation buttons
+  // Create navigation buttons (Next/Previous)
   const nextButton = $("<div class='button is-next'>Next</div>")
     .css({
       position: "absolute",
@@ -358,59 +358,106 @@ $(document).ready(function () {
 
   $(".bento-card").each(function (index) {
     const $card = $(this);
-    const cards = $(".bento-card"); // Reference all cards
+    const originalParent = $card.parent(); // Save the original parent
+    const originalIndex = $card.index(); // Save the card's index in the grid
+    let placeholder; // Placeholder for maintaining grid position
+    let closeButton; // Close button reference
 
-    // Scale up the card
+    // Scale up on click
     $card.on("click", function () {
       if (currentCardIndex === -1) {
-        currentCardIndex = index;
+        currentCardIndex = index; // Set the current card index
 
         overlay.fadeIn(300);
         nextButton.show();
         prevButton.show();
 
-        // Scale up the clicked card
-        scaleUpCard($card);
+        // Create close button dynamically if it doesn't exist
+        if (!closeButton) {
+          closeButton = $(
+            `<div class="button is-close">
+              <div class="embed-icon 24">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              </div>
+            </div>`
+          )
+            .css({
+              position: "absolute",
+              top: "0.75rem",
+              right: "0.75rem",
+              cursor: "pointer",
+              zIndex: 10000,
+              display: "none",
+              padding: "var(--size--6)",
+            })
+            .appendTo($card)
+            .on("click", function (e) {
+              e.stopPropagation(); // Prevent re-triggering the card's click event
+              closeCard();
+            });
+        }
+
+        closeButton.show(); // Show the close button
+
+        // Create a placeholder to maintain grid position
+        placeholder = $("<div class='placeholder'></div>")
+          .css({
+            width: $card.outerWidth(),
+            height: $card.outerHeight(),
+            visibility: "hidden",
+          })
+          .insertBefore($card);
+
+        const state = Flip.getState($card); // Capture the card's current state
+        $("body").append($card); // Move to the body for fixed positioning
+
+        // Set the scaled-up styles
+        gsap.set($card, {
+          width: "80vw",
+          height: "80vh",
+          position: "fixed",
+          top: "10vh",
+          left: "10vw",
+          zIndex: 9999,
+        });
+
+        // Animate only the selected card
+        Flip.from(state, {
+          duration: 0.4,
+          ease: "expo.out",
+        });
       }
     });
-
-    // Function to scale up a card
-    const scaleUpCard = function ($targetCard) {
-      const state = Flip.getState($targetCard);
-      $("body").append($targetCard);
-
-      // Set scaled-up styles
-      gsap.set($targetCard, {
-        width: "80vw",
-        height: "80vh",
-        position: "fixed",
-        top: "10vh",
-        left: "10vw",
-        zIndex: 9999,
-      });
-
-      // Animate transition
-      Flip.from(state, {
-        duration: 0.4,
-        ease: "expo.out",
-      });
-    };
 
     // Close the modal
     const closeCard = function () {
       if (currentCardIndex !== -1) {
-        const $currentCard = cards.eq(currentCardIndex);
-        currentCardIndex = -1;
+        currentCardIndex = -1; // Reset the current card index
 
         overlay.fadeOut(300);
         nextButton.hide();
         prevButton.hide();
 
-        const state = Flip.getState($currentCard);
+        // Hide the close button
+        if (closeButton) {
+          closeButton.hide();
+        }
 
-        // Return the card to its original grid position
-        $(".showcase-item_bento-wrapper").append($currentCard);
-        gsap.set($currentCard, { position: "", zIndex: "" });
+        const state = Flip.getState($card); // Capture the card's current state
+
+        // Return the card to its original parent and position
+        if (placeholder) {
+          placeholder.replaceWith($card);
+          placeholder = null; // Remove the placeholder
+        }
+
+        // Reset styles to integrate back into the grid
+        $card.css({ position: "", zIndex: "" });
+        gsap.set($card, { clearProps: "all" });
+
+        // Animate only the selected card back to its original state
         Flip.from(state, {
           duration: 0.4,
           ease: "expo.out",
@@ -418,54 +465,41 @@ $(document).ready(function () {
       }
     };
 
-    // Navigate to the next card
+    // Slide to next card
     const showNextCard = function () {
-      if (currentCardIndex < cards.length - 1) {
-        const $currentCard = cards.eq(currentCardIndex);
-        currentCardIndex++;
-        const $nextCard = cards.eq(currentCardIndex);
+      if (currentCardIndex < $(".bento-card").length - 1) {
+        const $nextCard = $(".bento-card").eq(currentCardIndex + 1);
+        currentCardIndex += 1;
 
-        // Replace current card with the next card
-        slideCard($currentCard, $nextCard, "next");
+        const state = Flip.getState($nextCard);
+        $("body").append($nextCard);
+
+        // Animate the transition
+        Flip.from(state, {
+          duration: 0.4,
+          ease: "expo.out",
+        });
       }
     };
 
-    // Navigate to the previous card
+    // Slide to previous card
     const showPrevCard = function () {
       if (currentCardIndex > 0) {
-        const $currentCard = cards.eq(currentCardIndex);
-        currentCardIndex--;
-        const $prevCard = cards.eq(currentCardIndex);
+        const $prevCard = $(".bento-card").eq(currentCardIndex - 1);
+        currentCardIndex -= 1;
 
-        // Replace current card with the previous card
-        slideCard($currentCard, $prevCard, "prev");
+        const state = Flip.getState($prevCard);
+        $("body").append($prevCard);
+
+        // Animate the transition
+        Flip.from(state, {
+          duration: 0.4,
+          ease: "expo.out",
+        });
       }
     };
 
-    // Slide animation between cards
-    const slideCard = function ($fromCard, $toCard, direction) {
-      const state = Flip.getState($toCard);
-
-      // Animate out the current card
-      gsap.to($fromCard, {
-        x: direction === "next" ? "-100vw" : "100vw",
-        duration: 0.4,
-        ease: "expo.out",
-        onComplete: function () {
-          // Hide the current card after sliding out
-          $fromCard.hide();
-        },
-      });
-
-      // Animate in the next/previous card
-      $("body").append($toCard.show());
-      Flip.from(state, {
-        duration: 0.4,
-        ease: "expo.out",
-      });
-    };
-
-    // Event listeners for Next and Previous buttons
+    // Add event listeners for Next and Previous buttons
     nextButton.on("click", showNextCard);
     prevButton.on("click", showPrevCard);
 
