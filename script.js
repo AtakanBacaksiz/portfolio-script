@@ -327,7 +327,7 @@ $(document).ready(function () {
 
   // Add the close icon to the overlay
   const closeIcon = $(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon">
+    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
       <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
     </svg>`
   )
@@ -341,46 +341,49 @@ $(document).ready(function () {
     })
     .appendTo(overlay);
 
-  $(".bento-card").on("click", function () {
-    const $this = $(this);
+  $(".bento-card").each(function () {
+    const $card = $(this);
+    const originalParent = $card.parent(); // Store the original parent
 
-    // Toggle state
-    const isScaled = $this.data("scaled");
+    $card.on("click", function () {
+      if (!$card.data("scaled")) {
+        // Scale up
+        $card.data("scaled", true);
+        overlay.fadeIn(300);
+        const state = Flip.getState($card);
+        $("body").append($card); // Move to the body for scaling
+        gsap.set($card, {
+          width: "80vw",
+          height: "80vh",
+          top: "10vh",
+          left: "10vw",
+          position: "fixed",
+          zIndex: 9999,
+        });
+        Flip.from(state, {
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
+    });
 
-    if (!isScaled) {
-      $this.data("scaled", true);
-      overlay.fadeIn(300);
-
-      // Flip animation
-      const state = Flip.getState($this);
-      $("body").append($this); // Move to the body for fixed positioning
-      gsap.set($this, {
-        width: "80vw",
-        height: "80vh",
-        top: "10vh",
-        left: "10vw",
-        position: "fixed",
-        zIndex: 9999,
-      });
-      Flip.from(state, {
-        duration: 0.5,
-        ease: "power2.out",
-      });
-    } else {
-      $this.data("scaled", false);
-      overlay.fadeOut(300);
-
-      // Flip back to the original position
-      const state = Flip.getState($this);
-      $this.css({ position: "", zIndex: "" }).appendTo(".original-container"); // Return to the original container
-      Flip.from(state, {
-        duration: 0.5,
-        ease: "power2.in",
-      });
-    }
+    closeIcon.on("click", function () {
+      if ($card.data("scaled")) {
+        // Scale down
+        $card.data("scaled", false);
+        overlay.fadeOut(300);
+        const state = Flip.getState($card);
+        originalParent.append($card); // Return to the original container
+        $card.css({ position: "", zIndex: "" });
+        Flip.from(state, {
+          duration: 0.5,
+          ease: "power2.in",
+        });
+      }
+    });
   });
 
-  // Close on overlay or close icon click
+  // Close overlay when clicked
   overlay.on("click", function (e) {
     if ($(e.target).is(".embed-icon") || e.target === overlay[0]) {
       $(".bento-card")
