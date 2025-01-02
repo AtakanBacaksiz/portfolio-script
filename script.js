@@ -314,39 +314,6 @@ $(document).ready(function () {
   // Register the Flip plugin
   gsap.registerPlugin(Flip);
 
-  // Create the overlay element
-  const overlay = $("<div></div>")
-    .css({
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.25)",
-      display: "none",
-      zIndex: 9998,
-    })
-    .appendTo("body");
-
-  // Add the close button wrapper with the close icon
-  const closeButton = $(
-    `<div class="button close">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
-        <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-      </svg>
-    </div>`
-  )
-    .css({
-      position: "absolute",
-      top: "20px",
-      right: "20px",
-      cursor: "pointer",
-      zIndex: 9999,
-    })
-    .appendTo(overlay);
-
-  overlay.append(closeButton);
-
   // Handle bento-card elements
   $(".bento-card").each(function () {
     const $card = $(this);
@@ -354,11 +321,27 @@ $(document).ready(function () {
     const originalIndex = $card.index(); // Save the card's index in the grid
     let placeholder; // Placeholder for maintaining grid position
 
+    // Add a close button to each card
+    const closeButton = $(
+      `<div class="button is-close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon">
+          <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </div>`
+    )
+      .css({
+        position: "absolute",
+        top: "0.75rem",
+        right: "0.75rem",
+        cursor: "pointer",
+        zIndex: 10000,
+      })
+      .appendTo($card);
+
     // Scale up on click
     $card.on("click", function () {
       if (!$card.data("scaled")) {
         $card.data("scaled", true);
-        overlay.fadeIn(300);
 
         // Create a placeholder to maintain grid position
         placeholder = $("<div class='placeholder'></div>")
@@ -394,7 +377,6 @@ $(document).ready(function () {
     const closeCard = function () {
       if ($card.data("scaled")) {
         $card.data("scaled", false);
-        overlay.fadeOut(300);
 
         const state = Flip.getState($card); // Capture the card's current state
 
@@ -424,16 +406,5 @@ $(document).ready(function () {
         closeCard();
       }
     });
-  });
-
-  // Close the overlay when clicking outside
-  overlay.on("click", function (e) {
-    if (e.target === overlay[0]) {
-      $(".bento-card")
-        .filter(function () {
-          return $(this).data("scaled");
-        })
-        .trigger("click");
-    }
   });
 });
