@@ -314,34 +314,42 @@ $(document).ready(function () {
   // Register the Flip plugin
   gsap.registerPlugin(Flip);
 
-  // Handle bento-card elements
   $(".bento-card").each(function () {
     const $card = $(this);
     const originalParent = $card.parent(); // Save the original parent
     const originalIndex = $card.index(); // Save the card's index in the grid
     let placeholder; // Placeholder for maintaining grid position
-
-    // Add a close button to each card
-    const closeButton = $(
-      `<div class="button is-close">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon">
-          <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-        </svg>
-      </div>`
-    )
-      .css({
-        position: "absolute",
-        top: "0.75rem",
-        right: "0.75rem",
-        cursor: "pointer",
-        zIndex: 10000,
-      })
-      .appendTo($card);
+    let closeButton; // Close button reference
 
     // Scale up on click
     $card.on("click", function () {
       if (!$card.data("scaled")) {
         $card.data("scaled", true);
+
+        // Create the close button dynamically if it doesn't exist
+        if (!closeButton) {
+          closeButton = $(
+            `<div class="button is-close">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" class="embed-icon 20">
+                <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>`
+          )
+            .css({
+              position: "absolute",
+              top: "0.75rem",
+              right: "0.75rem",
+              cursor: "pointer",
+              zIndex: 10000,
+              display: "none", // Initially hidden
+            })
+            .appendTo($card)
+            .on("click", function () {
+              closeCard();
+            });
+        }
+
+        closeButton.show(); // Show the close button when scaling up
 
         // Create a placeholder to maintain grid position
         placeholder = $("<div class='placeholder'></div>")
@@ -373,12 +381,17 @@ $(document).ready(function () {
       }
     });
 
-    // Scale down on close button click
+    // Scale down
     const closeCard = function () {
       if ($card.data("scaled")) {
         $card.data("scaled", false);
 
         const state = Flip.getState($card); // Capture the card's current state
+
+        // Hide the close button
+        if (closeButton) {
+          closeButton.hide();
+        }
 
         // Return the card to its original parent and position
         if (placeholder) {
@@ -397,8 +410,6 @@ $(document).ready(function () {
         });
       }
     };
-
-    closeButton.on("click", closeCard);
 
     // Close on Escape key
     $(document).on("keydown", function (e) {
