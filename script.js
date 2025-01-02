@@ -322,8 +322,6 @@ $(document).ready(function () {
       backgroundColor: "rgba(0, 0, 0, 0.25)",
       display: "none",
       zIndex: 9998,
-      justifyContent: "center",
-      alignItems: "center",
     })
     .appendTo("body");
 
@@ -338,8 +336,8 @@ $(document).ready(function () {
       top: "20px",
       right: "20px",
       cursor: "pointer",
-      zIndex: 9999,
       color: "#fff",
+      zIndex: 9999,
     })
     .appendTo(overlay);
 
@@ -350,38 +348,34 @@ $(document).ready(function () {
     const isScaled = $this.data("scaled");
 
     if (!isScaled) {
-      // Scale up
       $this.data("scaled", true);
       overlay.fadeIn(300);
-      gsap.to($this, {
-        width: "80vw", // Uniform size
-        height: "calc(80vw * 0.75)", // Maintain aspect ratio
+
+      // Flip animation
+      const state = Flip.getState($this);
+      $("body").append($this); // Move to the body for fixed positioning
+      gsap.set($this, {
+        width: "80vw",
+        height: "80vh",
+        top: "10vh",
+        left: "10vw",
         position: "fixed",
-        top: "10vh", // Center vertically
-        left: "10vw", // Center horizontally
         zIndex: 9999,
+      });
+      Flip.from(state, {
         duration: 0.5,
         ease: "power2.out",
-        onComplete: () => {
-          $this.css({ objectFit: "cover" }); // Smooth scaling
-        },
       });
     } else {
-      // Scale down
       $this.data("scaled", false);
       overlay.fadeOut(300);
-      gsap.to($this, {
-        width: "",
-        height: "",
-        position: "",
-        top: "",
-        left: "",
-        zIndex: "",
+
+      // Flip back to the original position
+      const state = Flip.getState($this);
+      $this.css({ position: "", zIndex: "" }).appendTo(".original-container"); // Return to the original container
+      Flip.from(state, {
         duration: 0.5,
         ease: "power2.in",
-        onComplete: () => {
-          $this.css({ objectFit: "" }); // Reset scaling
-        },
       });
     }
   });
@@ -389,9 +383,11 @@ $(document).ready(function () {
   // Close on overlay or close icon click
   overlay.on("click", function (e) {
     if ($(e.target).is(".embed-icon") || e.target === overlay[0]) {
-      $(".bento-card").filter(function () {
-        return $(this).data("scaled");
-      }).trigger("click");
+      $(".bento-card")
+        .filter(function () {
+          return $(this).data("scaled");
+        })
+        .trigger("click");
     }
   });
-
+});
