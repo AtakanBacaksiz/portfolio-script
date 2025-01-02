@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
   // Register the Flip plugin
   gsap.registerPlugin(Flip);
 
