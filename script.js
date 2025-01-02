@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
-  // Create the overlay element with the SVG close button
+  // Create the overlay element
   const overlay = $("<div></div>")
     .css({
       position: "fixed",
@@ -357,7 +357,7 @@ $(document).ready(function () {
         $card.data("scaled", true);
         overlay.fadeIn(300);
 
-        const state = Flip.getState($card);
+        const state = Flip.getState($card); // Capture current state
         $("body").append($card); // Temporarily append to body for scaling
         gsap.set($card, {
           width: "80vw",
@@ -381,7 +381,7 @@ $(document).ready(function () {
         $card.data("scaled", false);
         overlay.fadeOut(300);
 
-        const state = Flip.getState($card);
+        const state = Flip.getState($card); // Capture current state
 
         // Reinsert the card into the original position
         if (originalParent.children().eq(originalIndex).length) {
@@ -391,7 +391,7 @@ $(document).ready(function () {
         }
 
         $card.css({ position: "", zIndex: "" }); // Clear fixed styles
-        gsap.set($card, { clearProps: "all" }); // Remove other inline styles
+        gsap.set($card, { clearProps: "all" }); // Remove inline styles
 
         Flip.from(state, {
           duration: 0.4,
