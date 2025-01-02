@@ -156,30 +156,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize SplitType
-  let splitText = new SplitType("#head-about", {
-    types: "lines",
-  });
-
-  // Create a GSAP timeline
-  let tl = gsap.timeline();
-
-  // Animate lines
-  splitText.lines.forEach((line, index) => {
-    tl.from(
-      line,
-      {
-        opacity: 0,
-        y: 60,
-        duration: 1 + index * 0.5,
-        ease: "expo.out",
-      },
-      index * 0.1
-    );
-  });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
   // Hide initially
   document
     .querySelectorAll(".section_header .heading-style-h1")
@@ -300,23 +276,36 @@ $(".testimonial-container").each(function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Select all .resume-item elements
-  let items = document.querySelectorAll(".resume-item");
+  // Register the ScrollTrigger plugin
+  gsap.registerPlugin(ScrollTrigger);
 
-  // Create a GSAP timeline
-  let tl = gsap.timeline();
+  // Animate #head-about
+  gsap.from("#head-about", {
+    opacity: 0,
+    y: 60,
+    duration: 1,
+    ease: "expo.out",
+    scrollTrigger: {
+      trigger: "#head-about",
+      start: "top 80%", // Start animation when #head-about is in view
+      end: "top 50%", // Animation progress ends here
+      toggleActions: "play none none none", // Only play on enter
+    },
+  });
 
-  // Animate each item
-  items.forEach((item, index) => {
-    tl.from(
-      item,
-      {
-        opacity: 0,
-        y: 60, // Move up from 60px below
-        duration: 1,
-        ease: "expo.out",
+  // Animate each .resume-item
+  document.querySelectorAll(".resume-item").forEach((item, index) => {
+    gsap.from(item, {
+      opacity: 0,
+      y: 60,
+      duration: 1,
+      ease: "expo.out",
+      scrollTrigger: {
+        trigger: item, // Each .resume-item triggers itself
+        start: "top 90%", // Start animation when the element enters view
+        end: "top 70%", // Animation progress ends here
+        toggleActions: "play none none none", // Only play on enter
       },
-      index * 0.2 // Stagger animation start times
-    );
+    });
   });
 });
