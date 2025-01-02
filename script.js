@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Animate .heading-style-h2
-  document.querySelectorAll(".heading-style-h2").forEach((heading) => {
+  document.querySelectorAll("#header-case").forEach((heading) => {
     // Split text into words
     let split = new SplitType(heading, { types: "words" });
 
