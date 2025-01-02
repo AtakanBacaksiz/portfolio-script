@@ -298,3 +298,25 @@ $(".testimonial-container").each(function () {
     ease: "expo.out",
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Select all .resume-item elements
+  let items = document.querySelectorAll(".resume-item");
+
+  // Create a GSAP timeline
+  let tl = gsap.timeline();
+
+  // Animate each item
+  items.forEach((item, index) => {
+    tl.from(
+      item,
+      {
+        opacity: 0,
+        y: 60, // Move up from 60px below
+        duration: 1,
+        ease: "expo.out",
+      },
+      index * 0.2 // Stagger animation start times
+    );
+  });
+});
