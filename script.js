@@ -313,3 +313,116 @@ document.addEventListener("DOMContentLoaded", function () {
 console.log("Card 1:", $("#card-1"));
 console.log("Card 2:", $("#card-2"));
 console.log("Card 3:", $("#card-3"));
+$(document).ready(function () {
+  // Register the Flip plugin
+  gsap.registerPlugin(Flip);
+
+  // Overlay and close button
+  const overlay = $("<div></div>")
+    .css({
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.25)",
+      display: "none",
+      zIndex: 9998,
+    })
+    .appendTo("body");
+
+  const closeButton = $(
+    `<div class="button close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
+        <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+    </div>`
+  )
+    .css({
+      position: "absolute",
+      top: "20px",
+      right: "20px",
+      cursor: "pointer",
+      zIndex: 9999,
+    })
+    .appendTo(overlay);
+
+  overlay.append(closeButton);
+
+  // IDs of the cards
+  const ids = ["#card-1", "#card-2", "#card-3"];
+
+  ids.forEach(function (id) {
+    const $card = $(id);
+
+    // Debug: Check if the card exists
+    if (!$card.length) {
+      console.error(`Target not found: ${id}`);
+      return;
+    }
+
+    const originalParent = $card.parent();
+    const originalIndex = $card.index();
+
+    // Click event to scale up
+    $card.on("click", function () {
+      if (!$card.data("scaled")) {
+        $card.data("scaled", true);
+        overlay.fadeIn(300);
+
+        const state = Flip.getState($card);
+        $("body").append($card);
+
+        gsap.set($card, {
+          width: "80vw",
+          height: "80vh",
+          position: "fixed",
+          top: "10vh",
+          left: "10vw",
+          zIndex: 9999,
+        });
+
+        Flip.from(state, {
+          duration: 0.4,
+          ease: "expo.out",
+        });
+      }
+    });
+
+    // Click event to scale down
+    closeButton.on("click", function () {
+      if ($card.data("scaled")) {
+        $card.data("scaled", false);
+        overlay.fadeOut(300);
+
+        const state = Flip.getState($card);
+
+        if (originalParent.children().eq(originalIndex).length) {
+          originalParent.children().eq(originalIndex).before($card);
+        } else {
+          originalParent.append($card);
+        }
+
+        $card.css({ position: "", zIndex: "" });
+        gsap.set($card, { clearProps: "all" });
+
+        Flip.from(state, {
+          duration: 0.4,
+          ease: "expo.out",
+        });
+      }
+    });
+  });
+
+  // Close overlay when clicking outside
+  overlay.on("click", function (e) {
+    if (e.target === overlay[0]) {
+      ids.forEach(function (id) {
+        const $card = $(id);
+        if ($card.data("scaled")) {
+          $card.trigger("click");
+        }
+      });
+    }
+  });
+});
