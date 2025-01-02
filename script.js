@@ -156,25 +156,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Hide initially
-  document.querySelectorAll("#head-about").forEach((el) => {
-    el.setAttribute("data-gsap-hidden", "");
-  });
-
   // Initialize SplitType
   let splitText = new SplitType("#head-about", {
     types: "lines",
-  });
-
-  // GSAP Timeline
-  let tl = gsap.timeline({
-    onStart: () => {
-      document
-        .querySelectorAll("#head-about [data-gsap-hidden]")
-        .forEach((el) => {
-          el.style.visibility = "visible";
-        });
-    },
   });
 
   // Animate lines
