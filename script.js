@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(document).ready(function () {
   let bentoWrapper = $(".showcase-item_bento-wrapper");
-  let cards = bentoWrapper.children();
+  let cards = bentoWrapper.children(); // Ensure this targets the card elements
 
   // Overlay for background
   let overlay = $("<div></div>")
@@ -329,10 +329,11 @@ $(document).ready(function () {
     })
     .appendTo("body");
 
+  // Card click handler
   cards.each(function () {
     $(this).on("click", function () {
       let clickedCard = $(this);
-      let state = Flip.getState(cards); // Capture initial Flip state
+      let state = Flip.getState(cards); // Capture Flip state
 
       // Activate overlay
       overlay.css({ pointerEvents: "auto" }).animate({ opacity: 0.25 }, 200);
@@ -346,7 +347,7 @@ $(document).ready(function () {
         </div>`
       ).appendTo(clickedCard);
 
-      // Apply transformations for expanded view
+      // Transform card
       clickedCard.addClass("active").css({
         position: "fixed",
         top: "50%",
@@ -357,18 +358,18 @@ $(document).ready(function () {
         height: "50vh",
       });
 
-      // Animate Flip
+      // Flip animation
       Flip.from(state, {
         duration: 0.4,
         ease: "expo.out",
       });
 
-      // Close functionality
+      // Close button functionality
       closeButton.on("click", function (e) {
         e.stopPropagation(); // Prevent triggering parent click
-        let closeState = Flip.getState(cards); // Capture current Flip state
+        let closeState = Flip.getState(cards); // Capture current state
 
-        // Reset styles and remove active class
+        // Reset styles
         clickedCard.removeClass("active").css({
           position: "",
           zIndex: "",
@@ -379,7 +380,7 @@ $(document).ready(function () {
 
         closeButton.remove(); // Remove close button
 
-        // Animate back to original position
+        // Animate back to original state
         Flip.from(closeState, {
           duration: 0.4,
           ease: "expo.out",
