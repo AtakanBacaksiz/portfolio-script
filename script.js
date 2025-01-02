@@ -372,6 +372,7 @@ $(document).ready(function () {
           zIndex: 9999,
         });
 
+        // Animate only the selected card
         Flip.from(state, {
           duration: 0.4,
           ease: "expo.out",
@@ -380,7 +381,7 @@ $(document).ready(function () {
     });
 
     // Scale down on close button click
-    closeButton.on("click", function () {
+    const closeCard = function () {
       if ($card.data("scaled")) {
         $card.data("scaled", false);
         overlay.fadeOut(300);
@@ -398,10 +399,20 @@ $(document).ready(function () {
         $card.css({ position: "", zIndex: "" });
         gsap.set($card, { clearProps: "all" });
 
+        // Animate only the selected card back to its original state
         Flip.from(state, {
           duration: 0.4,
           ease: "expo.out",
         });
+      }
+    };
+
+    closeButton.on("click", closeCard);
+
+    // Close on Escape key
+    $(document).on("keydown", function (e) {
+      if (e.key === "Escape") {
+        closeCard();
       }
     });
   });
