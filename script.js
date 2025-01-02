@@ -311,8 +311,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
+  // Register the Flip plugin
   gsap.registerPlugin(Flip);
 
+  // Create the overlay element
   const overlay = $("<div></div>")
     .css({
       position: "fixed",
@@ -326,6 +328,7 @@ $(document).ready(function () {
     })
     .appendTo("body");
 
+  // Add the close button wrapper with the close icon
   const closeButton = $(
     `<div class="button close">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
@@ -333,12 +336,20 @@ $(document).ready(function () {
       </svg>
     </div>`
   )
-    .css({ position: "absolute", top: "20px", right: "20px", zIndex: 9999 })
+    .css({
+      position: "absolute",
+      top: "20px",
+      right: "20px",
+      cursor: "pointer",
+      zIndex: 9999,
+    })
     .appendTo(overlay);
 
+  // Append the close button to the overlay
   overlay.append(closeButton);
 
-  const ids = ["#card-1", "#card-2", "#card-3"]; // Update IDs if needed
+  // List of IDs to animate
+  const ids = ["#card-1", "#card-2", "#card-3"];
 
   ids.forEach(function (id) {
     const $card = $(id);
@@ -355,6 +366,7 @@ $(document).ready(function () {
         $card.data("scaled", true);
         overlay.fadeIn(300);
 
+        // Capture the card's current state
         const state = Flip.getState($card);
         $("body").append($card);
         gsap.set($card, {
@@ -373,19 +385,33 @@ $(document).ready(function () {
         $card.data("scaled", false);
         overlay.fadeOut(300);
 
+        // Capture the card's current state
         const state = Flip.getState($card);
 
+        // Return the card to its original position
         if (originalParent.children().eq(originalIndex).length) {
           originalParent.children().eq(originalIndex).before($card);
         } else {
           originalParent.append($card);
         }
 
+        // Reset styles
         $card.css({ position: "", zIndex: "" });
         gsap.set($card, { clearProps: "all" });
 
         Flip.from(state, { duration: 0.4, ease: "expo.out" });
       }
     });
+  });
+
+  overlay.on("click", function (e) {
+    if (e.target === overlay[0]) {
+      ids.forEach(function (id) {
+        const $card = $(id);
+        if ($card.data("scaled")) {
+          $card.trigger("click");
+        }
+      });
+    }
   });
 });
