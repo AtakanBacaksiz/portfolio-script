@@ -310,11 +310,64 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-$(".bento-card").on("click", function () {
-  gsap.to($(this), {
-    scale: 2, // Adjust the scale as needed
-    zIndex: 9999, // Bring it to the top
-    duration: 0.5, // Smooth animation duration
-    ease: "expo.out",
+$(document).ready(function () {
+  // Create the overlay element
+  const overlay = $("<div></div>")
+    .css({
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.25)",
+      display: "none",
+      zIndex: 9998,
+    })
+    .appendTo("body");
+
+  $(".bento-card").on("click", function () {
+    const $this = $(this);
+
+    // Toggle state
+    const isScaled = $this.data("scaled");
+
+    if (!isScaled) {
+      // Scale up
+      $this.data("scaled", true);
+      overlay.fadeIn(300);
+      gsap.to($this, {
+        width: "80vw", // Set uniform size
+        height: "80vh",
+        position: "fixed",
+        top: "10vh", // Center vertically
+        left: "10vw", // Center horizontally
+        zIndex: 9999,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    } else {
+      // Scale down
+      $this.data("scaled", false);
+      overlay.fadeOut(300);
+      gsap.to($this, {
+        width: "",
+        height: "",
+        position: "",
+        top: "",
+        left: "",
+        zIndex: "",
+        duration: 0.5,
+        ease: "power2.in",
+      });
+    }
+  });
+
+  // Close on overlay click
+  overlay.on("click", function () {
+    $(".bento-card")
+      .filter(function () {
+        return $(this).data("scaled");
+      })
+      .trigger("click");
   });
 });
