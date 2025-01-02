@@ -311,86 +311,115 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
-  let bentoWrapper = $(".showcase-item_bento-wrapper");
-  let cards = bentoWrapper.children(); // Ensure this targets the card elements
+  // Register the Flip plugin
+  gsap.registerPlugin(Flip);
 
-  // Overlay for background
-  let overlay = $("<div></div>")
+  // Create the overlay element
+  const overlay = $("<div></div>")
     .css({
       position: "fixed",
       top: 0,
       left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: "#0a0a0a",
-      opacity: 0,
-      pointerEvents: "none",
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.25)",
+      display: "none",
       zIndex: 9998,
     })
     .appendTo("body");
 
-  // Card click handler
-  cards.each(function () {
-    $(this).on("click", function () {
-      let clickedCard = $(this);
-      let state = Flip.getState(cards); // Capture Flip state
+  // Add the close button wrapper with the close icon
+  const closeButton = $(
+    `<div class="button close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="embed-icon 24">
+        <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+    </div>`
+  )
+    .css({
+      position: "absolute",
+      top: "20px",
+      right: "20px",
+      cursor: "pointer",
+      zIndex: 9999,
+    })
+    .appendTo(overlay);
 
-      // Activate overlay
-      overlay.css({ pointerEvents: "auto" }).animate({ opacity: 0.25 }, 200);
+  overlay.append(closeButton);
 
-      // Add close button
-      let closeButton = $(
-        `<div class="button is-icon large" style="position: absolute; top: 1rem; right: 1rem; z-index: 10000; cursor: pointer;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M7.75 7.75L16.25 16.25M16.25 7.75L7.75 16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
-        </div>`
-      ).appendTo(clickedCard);
+  // IDs of the cards
+  const ids = ["#card-1", "#card-2", "#card-3"];
 
-      // Transform card
-      clickedCard.addClass("active").css({
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: 9999,
-        width: "50vw",
-        height: "50vh",
-      });
+  ids.forEach(function (id) {
+    const $card = $(id);
 
-      // Flip animation
-      Flip.from(state, {
-        duration: 0.4,
-        ease: "expo.out",
-      });
+    if (!$card.length) {
+      console.error(`Target not found: ${id}`);
+      return;
+    }
 
-      // Close button functionality
-      closeButton.on("click", function (e) {
-        e.stopPropagation(); // Prevent triggering parent click
-        let closeState = Flip.getState(cards); // Capture current state
+    const originalParent = $card.parent();
+    const originalIndex = $card.index();
 
-        // Reset styles
-        clickedCard.removeClass("active").css({
-          position: "",
-          zIndex: "",
-          width: "",
-          height: "",
-          transform: "",
+    // Scale up
+    $card.on("click", function () {
+      if (!$card.data("scaled")) {
+        $card.data("scaled", true);
+        overlay.fadeIn(300);
+
+        const state = Flip.getState($card);
+        $("body").append($card);
+
+        gsap.set($card, {
+          width: "80vw",
+          height: "80vh",
+          position: "fixed",
+          top: "10vh",
+          left: "10vw",
+          zIndex: 9999,
         });
 
-        closeButton.remove(); // Remove close button
-
-        // Animate back to original state
-        Flip.from(closeState, {
+        Flip.from(state, {
           duration: 0.4,
           ease: "expo.out",
         });
-
-        // Fade out overlay
-        overlay.animate({ opacity: 0 }, 200, function () {
-          overlay.css({ pointerEvents: "none" });
-        });
-      });
+      }
     });
+
+    // Scale down
+    closeButton.on("click", function () {
+      if ($card.data("scaled")) {
+        $card.data("scaled", false);
+        overlay.fadeOut(300);
+
+        const state = Flip.getState($card);
+
+        if (originalParent.children().eq(originalIndex).length) {
+          originalParent.children().eq(originalIndex).before($card);
+        } else {
+          originalParent.append($card);
+        }
+
+        $card.css({ position: "", zIndex: "" });
+        gsap.set($card, { clearProps: "all" });
+
+        Flip.from(state, {
+          duration: 0.4,
+          ease: "expo.out",
+        });
+      }
+    });
+  });
+
+  // Close overlay when clicking outside
+  overlay.on("click", function (e) {
+    if (e.target === overlay[0]) {
+      ids.forEach(function (id) {
+        const $card = $(id);
+        if ($card.data("scaled")) {
+          $card.trigger("click");
+        }
+      });
+    }
   });
 });
