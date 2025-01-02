@@ -217,7 +217,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Animate .heading-style-h2
-  document.querySelectorAll(".heading-style-h2").forEach((heading) => {
+  document.querySelectorAll("#header-case").forEach((heading) => {
+    // Split text into words
+    let split = new SplitType(heading, { types: "words" });
+
+    // Animate each word
+    gsap.from(split.words, {
+      scrollTrigger: {
+        trigger: heading,
+        start: "top bottom",
+        end: "top 70%",
+        toggleActions: "play none none reverse",
+      },
+      opacity: 0, // Fade in
+      y: "2rem", // Slide in from below
+      duration: 0.8, // Smooth duration
+      ease: "expo.out", // Smooth easing
+      stagger: 0.1, // Cascading effect
+    });
+  });
+
+  document.querySelectorAll("#header-testimonial").forEach((heading) => {
     // Split text into words
     let split = new SplitType(heading, { types: "words" });
 
