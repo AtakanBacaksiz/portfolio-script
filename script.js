@@ -161,6 +161,9 @@ document.addEventListener("DOMContentLoaded", function () {
     types: "lines",
   });
 
+  // Create a GSAP timeline
+  let tl = gsap.timeline();
+
   // Animate lines
   splitText.lines.forEach((line, index) => {
     tl.from(
